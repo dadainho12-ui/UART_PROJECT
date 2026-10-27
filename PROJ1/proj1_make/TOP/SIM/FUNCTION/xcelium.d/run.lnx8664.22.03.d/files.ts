@@ -1,0 +1,6 @@
+1789651124 /home/hah002/cds.lib
+1792441805 /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/RTL/baud_gen.v
+1792442226 /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/RTL/uart_tx.v
+1792443915 /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/RTL/uart_rx.v
+1792443942 /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/RTL/uart_top.v
+1792444912 /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/SIM/TESTBENCH/tb_uart_top.v

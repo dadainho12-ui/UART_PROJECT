@@ -1,0 +1,26 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-XLMODE
+./xcelium.d/run.lnx8664.22.03.d
+-RUNMODE
+-ERRORMAX
+50
+-DEFINE
+function_sim
+../../RTL/baud_gen.v
+../../RTL/uart_tx.v
+../../RTL/uart_rx.v
+../../RTL/uart_top.v
+../TESTBENCH/tb_uart_top.v
+-CDSLIB
+./xcelium.d/run.lnx8664.22.03.d/cdsrun.lib
+-HDLVAR
+./xcelium.d/run.lnx8664.22.03.d/hdlrun.var
+-MESSAGES
+-UPDATE
+-XLLIBSTORE
+./xcelium.d/run.lnx8664.22.03.d/xllibs
+-ALLOWUNBOUND
+-hastop

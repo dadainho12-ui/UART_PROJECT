@@ -1,0 +1,6 @@
+//
+// File created by:  xrun
+// Do not modify this file
+
+s1::(20Oct2026:06:19:33):( xrun -64bit +max_err_count+50 +define+function_sim -access +rwc -gui -timescale 1ns/1ps ../../RTL/baud_gen.v ../../RTL/uart_tx.v ../../RTL/uart_rx.v ../../RTL/uart_top.v ../TESTBENCH/tb_uart_top.v -top tb_uart_top -l func_sim.log )
+s2::(20Oct2026:06:24:37):( xrun -64bit +max_err_count+50 +define+function_sim -access +rwc -gui -timescale 1ns/1ps ../../RTL/baud_gen.v ../../RTL/uart_tx.v ../../RTL/uart_rx.v ../../RTL/uart_top.v ../TESTBENCH/tb_uart_top.v -top tb_uart_top -l func_sim.log )

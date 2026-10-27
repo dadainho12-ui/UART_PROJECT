@@ -1,0 +1,78 @@
+xrun(64): 22.03-s012: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
+TOOL:	xrun(64)	22.03-s012: Started on Oct 20, 2026 at 06:24:37 KST
+xrun
+	-64bit
+	+max_err_count+50
+	+define+function_sim
+	-access +rwc
+	-gui
+	-timescale 1ns/1ps
+	../../RTL/baud_gen.v
+	../../RTL/uart_tx.v
+	../../RTL/uart_rx.v
+	../../RTL/uart_top.v
+	../TESTBENCH/tb_uart_top.v
+	-top tb_uart_top
+	-l func_sim.log
+Recompiling... reason: file '../TESTBENCH/tb_uart_top.v' is newer than expected.
+	expected: Tue Oct 20 06:18:08 2026
+	actual:   Tue Oct 20 06:21:52 2026
+file: ../TESTBENCH/tb_uart_top.v
+	module worklib.tb_uart_top:v
+		errors: 0, warnings: 0
+module tb_uart_top;
+                 |
+xmvlog: *W,RECOME (../TESTBENCH/tb_uart_top.v,124|17): recompiling design unit worklib.tb_uart_top:v.
+	First compiled from line 4 of ../TESTBENCH/tb_uart_top.v.
+	Elaborating the design hierarchy:
+		Caching library 'worklib' ....... Done
+	Top level design units:
+		tb_uart_top
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.uart_rx:v <0x1091c36d>
+			streams:  14, words:  7094
+		worklib.uart_tx:v <0x4635bcb8>
+			streams:  10, words:  4749
+		worklib.baud_gen:v <0x13ea6223>
+			streams:   4, words:  1269
+		worklib.tb_uart_top:v <0x5a46cefe>
+			streams:  10, words: 10604
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 5       5
+		Registers:              23      23
+		Scalar wires:           10       -
+		Vectored wires:          2       -
+		Always blocks:           6       6
+		Initial blocks:          3       3
+		Cont. assignments:       0       1
+		Pseudo assignments:      4       4
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.tb_uart_top:v
+xmsim: *W,NOMTDGUI: Multi-Threaded Dumping is disabled for interactive debug mode.
+
+-------------------------------------
+Relinquished control to SimVision...
+xcelium> 
+xcelium> source /tools/cadence/XCELIUM2203/tools/xcelium/files/xmsimrc
+xcelium> database -open waves -into waves.shm -default
+Created default SHM database waves
+xcelium> probe -create -shm tb_uart_top.uart_tx tb_uart_top.uart_rx tb_uart_top.tx_start tb_uart_top.tx_done tb_uart_top.tx_data tb_uart_top.tx_busy tb_uart_top.rx_valid tb_uart_top.rx_data tb_uart_top.reset_n tb_uart_top.frame_error tb_uart_top.clk
+Created probe 1
+xcelium> run
+PASS: TX=41 RX=41
+PASS: TX=55 RX=55
+PASS: TX=a5 RX=a5
+PASS: TX=00 RX=00
+PASS: TX=ff RX=ff
+=======================
+UART LOOPBACK TEST PASS
+=======================
+Simulation complete via $finish(1) at time 478600 NS + 0
+../TESTBENCH/tb_uart_top.v:101         $finish;
+xcelium> ^C
+xcelium> exit
+TOOL:	xrun(64)	22.03-s012: Exiting on Oct 20, 2026 at 06:27:41 KST  (total: 00:03:04)
