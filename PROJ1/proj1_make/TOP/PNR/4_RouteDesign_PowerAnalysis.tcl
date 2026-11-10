@@ -1,9 +1,9 @@
+source [file join [file dirname [info script]] pnr_config.tcl]
 ##############
 # Route
 ##############
 
-restoreDesign PostCTSopt.dat
-
+if {![info exists ::pnr_batch]} { restoreDesign PostCTSopt.dat }
 # Route Auto : To Detail
 setNanoRouteMode -quiet -drouteFixAntenna 1
 setNanoRouteMode -quiet -routeInsertAntennaDiode 0
@@ -34,7 +34,7 @@ get_verify_drc_mode -ignore_trial_route -quiet
 get_verify_drc_mode -max_wrong_way_halo -quiet
 get_verify_drc_mode -use_min_spacing_on_block_obs -quiet
 get_verify_drc_mode -limit -quiet
-set_verify_drc_mode -disable_rules {} -check_ndr_spacing auto -check_only default -check_same_via_cell true -exclude_pg_net false -ignore_trial_route false -ignore_cell_blockage false -use_min_spacing_on_block_obs auto -report cmsdk_mcu.drc.rpt -limit 1000
+set_verify_drc_mode -disable_rules {} -check_ndr_spacing auto -check_only default -check_same_via_cell true -exclude_pg_net false -ignore_trial_route false -ignore_cell_blockage false -use_min_spacing_on_block_obs auto -report asic_top.drc.rpt -limit 1000
 
 verify_drc
 set_verify_drc_mode -area {0 0 0 0}
@@ -43,7 +43,7 @@ set_verify_drc_mode -area {0 0 0 0}
 setAnalysisMode -analysisType onChipVariation
 optDesign -postRoute -drv ; # auto DRC Fix
 
-# LVS : Connectivity 
+# LVS : Connectivity
 verifyConnectivity -type all -geomConnect -error 1000 -warning 50
 
 # Violation Browser
@@ -56,20 +56,20 @@ extractRC
 # Timing optimization
 # smkcow
 # Upper side, I suggest the below command to do auto fix DRC
-# setAnalysisMode -analysisType onChipVariation 
+# setAnalysisMode -analysisType onChipVariation
 #
 # After that, I used the below <optDesign> command to make the design free about timing violations
-# optDesign -postRoute -setup; # Optimization and resolve the Setup Violation 
-# 
-# However, optDesign command didn't do well so I decided to change analysisType to single 
+# optDesign -postRoute -setup; # Optimization and resolve the Setup Violation
+#
+# However, optDesign command didn't do well so I decided to change analysisType to single
 # It was more helpful to make the design better
 
 setDelayCalMode -SIAware false ; # Delete SI effect -> base delay is only used
 setAnalysisMode -analysisType single -checkType setup ; # After change to single mode
-optDesign -postRoute -setup; # 0 : Optimization and resolve the Setup Violation 
+optDesign -postRoute -setup; # 0 : Optimization and resolve the Setup Violation
 
 setAnalysisMode -analysisType single -checkType hold
-optDesign -postRoute -hold; # 1 : Optimization and resolve the Hold Violation 
+optDesign -postRoute -hold; # 1 : Optimization and resolve the Hold Violation
 
 timeDesign -postRoute 	; # Setup time report
 timeDesign -postRoute -hold; # Hold time report
@@ -85,7 +85,7 @@ saveDesign -rc -def RouteDesign
 
 # without -stylus option : MMMC1 format
 # with -stylus option : MMMC2 format
-# Below command is for stylus 
+# Below command is for stylus
 #write_db -rc_extract postRoute
 
 
@@ -96,7 +96,7 @@ saveDesign -rc -def RouteDesign
 set_power_analysis_mode -reset
 
 # You can switch some options :: analysis_view, corner
-set_power_analysis_mode -method static -analysis_view FUNC_SS_WORST -corner max -create_binary_db true -write_static_currents true -honor_negative_energy true -ignore_control_signals true
+set_power_analysis_mode -method static -analysis_view FUNC_SS_WORST -corner WORST -create_binary_db true -write_static_currents true -honor_negative_energy true -ignore_control_signals true
 
 ## Once again : Global Net Connection
 globalNetConnect VDD -type pgpin -pin VDD -instanceBasename *
@@ -112,14 +112,14 @@ set_default_switching_activity -input_activity 0.2 -period 8.0 ;# 8ns operation
 read_activity_file -reset ; 		#If you don't have fsdb or vcd file, reset at here
 set_power -reset
 set_powerup_analysis -reset
-report_power -rail_analysis_format VS -outfile ./run1/cmsdk_mcu.rpt
+report_power -rail_analysis_format VS -outfile ./run1/asic_top.rpt
 
 ########################
 # Rail IR-DROP Analysis
 ########################
 # There are Some Errors during Rail IR-drop report
-# Skip This step 
-# Alternatively, Use Voltus to Anlyze 
+# Skip This step
+# Alternatively, Use Voltus to Anlyze
 ########################
 
-exit
+if {![info exists ::pnr_batch]} { exit }

@@ -1,0 +1,67 @@
+(globals
+    version = 3
+    io_order = default
+)
+(iopad
+    (left
+        (inst name="u_pad_clk" cell="PADDI" offset=300)
+        (inst name="u_pad_reset" cell="PADDI" offset=580)
+        (inst name="u_left_vdd" cell="PADVDD" offset=860)
+        (inst name="u_left_vss" cell="PADVSS" offset=1140)
+        (inst name="u_left_vddior" cell="PADVDDIOR" offset=1420)
+        (inst name="u_left_vssior" cell="PADVSSIOR" offset=1700)
+        (inst name="u_pad_tx_start" cell="PADDI" offset=1980)
+        (inst name="u_pad_uart_rx" cell="PADDI" offset=2260)
+    )
+    (bottom
+        (inst name="GEN_TX_DATA_PAD[0].u_pad_tx_data" cell="PADDI" offset=300)
+        (inst name="GEN_TX_DATA_PAD[1].u_pad_tx_data" cell="PADDI" offset=580)
+        (inst name="GEN_TX_DATA_PAD[2].u_pad_tx_data" cell="PADDI" offset=860)
+        (inst name="GEN_TX_DATA_PAD[3].u_pad_tx_data" cell="PADDI" offset=1140)
+        (inst name="u_bottom_vdd" cell="PADVDD" offset=1420)
+        (inst name="u_bottom_vss" cell="PADVSS" offset=1700)
+        (inst name="u_bottom_vddior" cell="PADVDDIOR" offset=1980)
+        (inst name="u_bottom_vssior" cell="PADVSSIOR" offset=2260)
+        (inst name="GEN_TX_DATA_PAD[4].u_pad_tx_data" cell="PADDI" offset=2540)
+        (inst name="GEN_TX_DATA_PAD[5].u_pad_tx_data" cell="PADDI" offset=2820)
+        (inst name="GEN_TX_DATA_PAD[6].u_pad_tx_data" cell="PADDI" offset=3100)
+        (inst name="GEN_TX_DATA_PAD[7].u_pad_tx_data" cell="PADDI" offset=3380)
+    )
+    (right
+        (inst name="GEN_RX_DATA_PAD[0].u_pad_rx_data" cell="PADDO" offset=300)
+        (inst name="GEN_RX_DATA_PAD[1].u_pad_rx_data" cell="PADDO" offset=580)
+        (inst name="GEN_RX_DATA_PAD[2].u_pad_rx_data" cell="PADDO" offset=860)
+        (inst name="GEN_RX_DATA_PAD[3].u_pad_rx_data" cell="PADDO" offset=1140)
+        (inst name="u_right_vdd" cell="PADVDD" offset=1420)
+        (inst name="u_right_vss" cell="PADVSS" offset=1700)
+        (inst name="u_right_vddior" cell="PADVDDIOR" offset=1980)
+        (inst name="u_right_vssior" cell="PADVSSIOR" offset=2260)
+        (inst name="GEN_RX_DATA_PAD[4].u_pad_rx_data" cell="PADDO" offset=2540)
+        (inst name="GEN_RX_DATA_PAD[5].u_pad_rx_data" cell="PADDO" offset=2820)
+        (inst name="GEN_RX_DATA_PAD[6].u_pad_rx_data" cell="PADDO" offset=3100)
+        (inst name="GEN_RX_DATA_PAD[7].u_pad_rx_data" cell="PADDO" offset=3380)
+    )
+    (top
+        (inst name="u_pad_uart_tx" cell="PADDO" offset=300)
+        (inst name="u_pad_tx_busy" cell="PADDO" offset=580)
+        (inst name="u_top_vdd" cell="PADVDD" offset=860)
+        (inst name="u_top_vss" cell="PADVSS" offset=1140)
+        (inst name="u_top_vddior" cell="PADVDDIOR" offset=1420)
+        (inst name="u_top_vssior" cell="PADVSSIOR" offset=1700)
+        (inst name="u_pad_tx_done" cell="PADDO" offset=1980)
+        (inst name="u_pad_rx_valid" cell="PADDO" offset=2260)
+        (inst name="u_pad_frame_error" cell="PADDO" offset=2540)
+    )
+    (topleft
+        (inst name="CORNER_TL" cell="padIORINGCORNER")
+    )
+    (topright
+        (inst name="CORNER_TR" cell="padIORINGCORNER")
+    )
+    (bottomright
+        (inst name="CORNER_BR" cell="padIORINGCORNER")
+    )
+    (bottomleft
+        (inst name="CORNER_BL" cell="padIORINGCORNER")
+    )
+)

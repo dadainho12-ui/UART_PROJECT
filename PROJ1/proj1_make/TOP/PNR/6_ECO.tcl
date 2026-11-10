@@ -1,12 +1,13 @@
+source [file join [file dirname [info script]] pnr_config.tcl]
 ###############
 #### ECO ######
 ###############
-restoreDesign RouteDesign.dat
+if {![info exists ::pnr_batch]} { restoreDesign RouteDesign.dat }
 source innovus.eco
 
-# After inserting repeat cells, 
-# Ctrl+F and Turn on Auto Zoom 
-# and Press the find button with using the word "*FE_ECO* 
+# After inserting repeat cells,
+# Ctrl+F and Turn on Auto Zoom
+# and Press the find button with using the word "*FE_ECO*
 
 # RC Extraction
 extractRC
@@ -17,10 +18,10 @@ timeDesign -postRoute -hold
 
 # If many violatios are occured, Optimize Design
 setAnalysisMode -analysisType single -checkType setup ; # After change to single mode
-optDesign -postRoute -setup; # 0 : Optimization and resolve the Setup Violation 
+optDesign -postRoute -setup; # 0 : Optimization and resolve the Setup Violation
 
 setAnalysisMode -analysisType single -checkType hold
-optDesign -postRoute -hold; # 1 : Optimization and resolve the Hold Violation 
+optDesign -postRoute -hold; # 1 : Optimization and resolve the Hold Violation
 
 # Timing Check after Optimization
 timeDesign -postRoute 	; # Setup time report
@@ -38,7 +39,7 @@ get_verify_drc_mode -ignore_trial_route -quiet
 get_verify_drc_mode -max_wrong_way_halo -quiet
 get_verify_drc_mode -use_min_spacing_on_block_obs -quiet
 get_verify_drc_mode -limit -quiet
-set_verify_drc_mode -disable_rules {} -check_ndr_spacing auto -check_only default -check_same_via_cell true -exclude_pg_net false -ignore_trial_route false -ignore_cell_blockage false -use_min_spacing_on_block_obs auto -report cmsdk_mcu.drc.rpt -limit 1000
+set_verify_drc_mode -disable_rules {} -check_ndr_spacing auto -check_only default -check_same_via_cell true -exclude_pg_net false -ignore_trial_route false -ignore_cell_blockage false -use_min_spacing_on_block_obs auto -report asic_top.drc.rpt -limit 1000
 verify_drc
 set_verify_drc_mode -area {0 0 0 0}
 
@@ -46,7 +47,7 @@ set_verify_drc_mode -area {0 0 0 0}
 #setAnalysisMode -analysisType onChipVariation
 #optDesign -postRoute -drv ; # auto DRC Fix
 
-# LVS : Connectivity 
+# LVS : Connectivity
 verifyConnectivity -type all -geomConnect -error 1000 -warning 50
 
 # Violation Browser
@@ -76,19 +77,19 @@ saveDesign -rc -def ChipFinish_after_ECO
 #####################
 # Write Out Files
 # GDS file : without layermap file for GPDK045
-streamOut cmsdk_mcu.gds -libName DesignLib -units 2000 -mode ALL
+streamOut asic_top.gds -libName DesignLib -units 2000 -mode ALL
 
 # Write Out Constraint
-writeTimingCon cmsdk_mcu.sdc
+writeTimingCon asic_top.sdc
 
-# Netlist  file : -flat options is useful to next tool stages
-saveNetlist -flat -excludeCellInst "PADVDD PADVSS PADVSSIOR PADVDDIOR" cmsdk_mcu.v
+# Preserve power pad instances in the physical netlist.
+saveNetlist -flat asic_top.v
 
 # SDF OUT, but I recommend to use sdf file which is from Tempus tool
 # SDF version 3.0 :: RECREM included in the SDF file
-write_sdf cmsdk_mcu.sdf
+write_sdf asic_top.sdf
 
 # SDF version 2.1
-write_sdf -version 2.1 cmsdk_mcu.sdf_2.1
+write_sdf -version 2.1 asic_top.sdf_2.1
 
-exit
+if {![info exists ::pnr_batch]} { exit }

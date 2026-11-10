@@ -1,10 +1,11 @@
+source [file join [file dirname [info script]] pnr_config.tcl]
 ########################################
 # CTS & Optimization
 ########################################
 
-restoreDesign PlaceOpt.dat
+if {![info exists ::pnr_batch]} { restoreDesign PlaceOpt.dat }
 # Target about skew
-set_ccopt_property target_skew 0.01  
+set_ccopt_property target_skew 0.01
 
 create_ccopt_clock_tree_spec
 # CTS and report all timing WNS, TNS results
@@ -28,4 +29,4 @@ timeDesign -postCTS -outDir reports/timing/postCTS
 # If there is no error, Save Design
 saveDesign -def PostCTSopt
 
-exit
+if {![info exists ::pnr_batch]} { exit }

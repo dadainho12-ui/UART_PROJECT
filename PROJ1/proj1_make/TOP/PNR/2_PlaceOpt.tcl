@@ -1,22 +1,23 @@
+source [file join [file dirname [info script]] pnr_config.tcl]
 ######################################3
 ## Placement & Optimization
 ######################################3
-restoreDesign PowerPlan.dat 
-set_db place_global_cong_effort high
+if {![info exists ::pnr_batch]} { restoreDesign PowerPlan.dat }
+setPlaceMode -congEffort high
 
 # First placement
 place_design
 
-# Check the Placement Density 
-checkPlace cmsdk_mcu.checkPlace
+# Check the Placement Density
+checkPlace asic_top.checkPlace
 
-# Early GlobalRoute :: analisys of Congestion and Timing after Placement 
+# Early GlobalRoute :: analisys of Congestion and Timing after Placement
 setRouteMode -earlyGlobalMinRouteLayer 1 -earlyGlobalMaxRouteLayer 11 -earlyGlobalHonorMsvRouteConstraint false -earlyGlobalRoutePartitionPinGuide true
 earlyGlobalRoute
 reportCongestion -hotSpot
 reportCongestion -overflow
 
-# View Density Map 
+# View Density Map
 setDrawView place
 setLayerPreference densityMap -isVisible 1
 setLayerPreference densityMap -isVisible 0
@@ -25,10 +26,10 @@ setLayerPreference densityMap -isVisible 0
 setLayerPreference pinDensityMap -isVisible 1
 setLayerPreference pinDensityMap -isVisible 0
 
-# Placement Optimization 
+# Placement Optimization
 place_opt_design
 
-# Early GlobalRoute :: analisys of Congestion and Timing after Placement 
+# Early GlobalRoute :: analisys of Congestion and Timing after Placement
 earlyGlobalRoute
 reportCongestion -hotSpot
 reportCongestion -overflow
@@ -36,10 +37,10 @@ reportCongestion -overflow
 #Timing summary
 timeDesign -preCTS -outDir reports/timing/preCTS
 
-#checkDesign :: Density 
+#checkDesign :: Density
 checkDesign -place
 
 # If there is no error, Save Design
 saveDesign -def PlaceOpt
 
-exit
+if {![info exists ::pnr_batch]} { exit }
