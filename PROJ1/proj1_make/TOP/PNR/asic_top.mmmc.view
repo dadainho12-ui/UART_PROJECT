@@ -4,7 +4,7 @@ require_pnr_file $qrc_tech
 set ff_libs [list [file join $std_root gsclib045 timing fast_vdd1v0_basicCells.lib] [file join $io_root timing pads_FF_s1vg.lib]]
 set ss_libs [list [file join $std_root gsclib045 timing slow_vdd1v0_basicCells.lib] [file join $io_root timing pads_SS_s1vg.lib]]
 foreach lib [concat $ff_libs $ss_libs] { require_pnr_file $lib }
-set uart_sdc [file normalize [file join $pnr_dir ../SYN/mapped/asic_top_syn_final.sdc]]
+set uart_sdc [file normalize [file join $pnr_dir asic_top_50mhz.sdc]]
 require_pnr_file $uart_sdc
 create_rc_corner -name BEST -qx_tech_file $qrc_tech -T 0
 create_rc_corner -name WORST -qx_tech_file $qrc_tech -T 125

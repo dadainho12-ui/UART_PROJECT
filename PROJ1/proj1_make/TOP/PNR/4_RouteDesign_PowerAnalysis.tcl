@@ -108,7 +108,7 @@ set_power_output_dir -reset
 set_power_output_dir ./run1 ; 		#You can define the folder name
 set_dynamic_power_simulation -reset ; 	# If you want to do the static power simulation
 set_default_switching_activity -reset
-set_default_switching_activity -input_activity 0.2 -period 8.0 ;# 8ns operation
+set_default_switching_activity -input_activity 0.2 -period 20.0 ;# 50MHz / 20ns, matching asic_top_50mhz.sdc
 read_activity_file -reset ; 		#If you don't have fsdb or vcd file, reset at here
 set_power -reset
 set_powerup_analysis -reset

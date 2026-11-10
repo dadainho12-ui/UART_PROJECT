@@ -34,7 +34,7 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
 - `generated/asic_top_pnr.v`: PNR 전용 넷리스트. 재실행 시 동일 입력이면 동일 결과입니다.
 - `init.io`: 신호 25개 + 전원 16개, 물리 코너 4개. 코너는 Verilog 논리 인스턴스가 아닙니다.
 - `pnr_config.tcl`: 공통 경로 및 출력 디렉터리 설정.
-- `asic_top.mmmc.view`: 기존 SDC, FF/SS 타이밍 라이브러리, GPDK045 QRC 사용.
+- `asic_top.mmmc.view`: PNR용 `asic_top_50mhz.sdc`, FF/SS 타이밍 라이브러리, GPDK045 QRC 사용.
   기존의 공정명이 다른 `cln28hpl` capacitance table 참조는 제거했습니다.
 
 | 변 | 신호 패드 | 추가 전원 패드 |
@@ -64,9 +64,12 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
    실제 LEF/Liberty의 PG pin 이름, 코어·IO 전원 도메인과 전압을 확인하세요.
    별도 IO 전원이 필요한 라이브러리라면 해당 net/PG pin 연결 및 링을 추가해야 합니다.
    임의로 IO 전원을 코어 VDD에 묶지 않았습니다. `verifyConnectivity` 결과를 검토하세요.
-4. **타이밍**: 기존 합성 SDC는 MAIN_CLOCK **8ns(125MHz)** 입니다.
-   RTL의 CLK_FREQ=50MHz와 다릅니다. 이번 수정에서는 타이밍 요구를 임의 변경하지 않았습니다.
-   실제 보드 목표에 따라 SDC, baud parameter, power activity 주기를 함께 검토하세요.
+4. **타이밍**: PNR은 `asic_top_50mhz.sdc`의 MAIN_CLOCK **20ns(50MHz)**,
+   waveform `{0.0 10.0}`을 사용합니다. RTL의 CLK_FREQ=50MHz와 일치하며
+   전력 분석 switching activity 주기도 20ns입니다. 원본 합성 SDC의 8ns 제약은 보존합니다.
+   PNR용 SDC는 합성 SDC의 복사본에서 클록 주기/파형만 변경했습니다.
+   입력·출력 지연, uncertainty, latency 등 다른 제약은 기존 값을 유지합니다.
+   합성 제약이 나중에 변경되면 PNR용 복사본에도 반영해야 합니다.
    기존 SDC의 ideal network/clock latency가 CTS 후 propagated clock 처리와 적합한지도 확인하세요.
 5. **최종 검증**: 단계별 timing/DRC/PG 연결 보고서를 검토하고 filler 후 DRC/LVS 및
    추출/타이밍을 다시 확인하세요. Tcl이 종료됐다는 사실만으로 signoff 통과로 판단하지 마세요.
