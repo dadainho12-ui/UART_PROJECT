@@ -1,4 +1,4 @@
-// Power pads inserted into asic_top by prepare_pnr.py.
+// Power pads inserted into asic_top by prepare_pnr.tcl.
 // Signal pads already exist in the synthesized netlist.
 PADVDD u_left_vdd();
 PADVSS u_left_vss();

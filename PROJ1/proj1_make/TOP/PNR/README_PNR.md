@@ -11,12 +11,13 @@ cd PROJ1/proj1_make/TOP/PNR
 export GPDK045_ROOT=/실제/경로/GPDK045
 # 기본 QRC 위치가 다를 때만 지정
 export QRC_TECH_FILE=/실제/경로/gpdk045.tch
-python3 prepare_pnr.py
+tclsh prepare_pnr.tcl
 innovus -files all.tcl
 ```
 
 GUI에서 실행한다면 이 디렉터리에서 Innovus를 시작한 뒤 `source all.tcl`을 사용합니다.
-Python 3가 Innovus 프로세스의 PATH에도 있어야 합니다.
+Python 설치는 필요하지 않습니다. `prepare_pnr.tcl`은 Innovus 내장 Tcl로 실행됩니다.
+위의 `tclsh` 사전 실행은 선택 사항이며, Innovus에서 0번을 실행하면 자동으로 처리합니다.
 `0_InitDesign.tcl`이 준비 스크립트를 자동 실행하므로 생성 파일이 오래된 상태로 진행하지 않습니다.
 원본 `../SYN/mapped/asic_top_syn_final.v` 및 `.sdc`는 수정하지 않습니다.
 
@@ -29,7 +30,7 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
 ## 파일 관계
 
 - `add_pad`: Verilog 전원 패드 선언 조각. 단독 Verilog 모듈이나 Tcl이 아닙니다.
-- `prepare_pnr.py`: 기존 신호 패드 25개와 IO 배치의 이름/셀을 대조한 뒤,
+- `prepare_pnr.tcl`: 기존 신호 패드 25개와 IO 배치의 이름/셀을 대조한 뒤,
   **asic_top 모듈 내부**에 전원 패드 16개를 추가합니다.
 - `generated/asic_top_pnr.v`: PNR 전용 넷리스트. 재실행 시 동일 입력이면 동일 결과입니다.
 - `init.io`: 신호 25개 + 전원 16개, 물리 코너 4개. 코너는 Verilog 논리 인스턴스가 아닙니다.

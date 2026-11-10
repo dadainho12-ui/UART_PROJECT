@@ -1,6 +1,7 @@
 # UART initialization: original synthesis output is never modified.
 source [file join [file dirname [info script]] pnr_config.tcl]
-exec python3 [file join $pnr_dir prepare_pnr.py]
+# Prepare the PNR-only netlist using Innovus Tcl (no external executable).
+source [file join $pnr_dir prepare_pnr.tcl]
 foreach lef $pnr_lefs { require_pnr_file $lef }
 require_pnr_file $qrc_tech
 set init_gnd_net VSS
