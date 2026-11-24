@@ -27,13 +27,18 @@ proc uart_check_live_floorplan {} {
     set origin [regexp -all -inline {[-+]?[0-9]+(?:\.[0-9]+)?} [get_snap_grid_info -type placement -origin]]
     if {[llength $origin] != 2} {error "Cannot read PlacementGrid origin"}
     lassign $origin ox oy
+    set boxes [dict create]
     foreach kind {box coreBox} {
         set box [regexp -all -inline {[-+]?[0-9]+(?:\.[0-9]+)?} [dbGet top.fPlan.$kind]]
         if {[llength $box] != 4} {error "Cannot read floorplan $kind"}
+        dict set boxes $kind $box
+        puts "Actual $kind: $box"
+    }
+    foreach kind {box coreBox} {
+        set box [dict get $boxes $kind]
         lassign $box x1 y1 x2 y2
         uart_require_grid "$kind lower-left" $x1 $y1 $px $py $ox $oy
         uart_require_grid "$kind upper-right" $x2 $y2 $px $py $ox $oy
-        puts "Actual $kind: $box"
     }
     puts "PASS: actual die/core corners are on PlacementGrid (IO legality still requires checkFPlan)"
 }
@@ -48,8 +53,9 @@ proc uart_validate_floorplan {dir} {
     }
     if {[uart_geometry_option $floor -coreMarginsBy] ne "die" ||
         [uart_geometry_option $floor -fplanOrigin] ne "llcorner" ||
-        [lsearch -exact $floor -adjustToSite] < 0} {
-        error "Require die-relative margins, llcorner origin and site adjustment"
+        [lsearch -exact $floor -adjustToSite] >= 0 ||
+        [lsearch -exact $floor -noSnapToGrid] >= 0} {
+        error "Require die-relative margins and llcorner origin; omit -adjustToSite/-noSnapToGrid"
     }
     lassign $dimensions die_w die_h left bottom right top
     set core_w [expr {$die_w-$left-$right}]

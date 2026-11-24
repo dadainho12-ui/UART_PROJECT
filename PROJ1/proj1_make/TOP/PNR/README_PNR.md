@@ -114,7 +114,11 @@ reports/init, reports/floorplan, reports/powerplan 및 PG connectivity 메시지
 ManufacturingGrid는 X/Y 모두 0.005µm입니다. 기존 350µm Y 여백과 2000µm 높이는
 PlacementGrid에 맞지 않았고, 기본 IO 기준 여백으로 실제 코어가 약 820µm가 됐습니다.
 이번에는 die 기준을 명시하고 Y 경계를 1999.94, 349.98, 1649.96µm로 정렬했습니다.
-`-adjustToSite` 이후 실제 die/core 좌표도 조회하여 그리드 불일치 시 filler 삽입 전에 중단합니다.
+`-adjustToSite`는 사용하지 않습니다. 해당 옵션을 사용한 서버 실행에서는 요청한 경계가
+die 높이 2000µm / core 상단 Y=1650.02µm로 바뀌어 0.19µm grid와 불일치했습니다.
+일반 grid snapping은 유지하고 실제 die/core 좌표를 모두 출력한 뒤 불일치 시 filler 삽입 전에 중단합니다.
+옵션 제거 후 경계가 유지되는지는 서버에서 재실행하여 확인해야 합니다. CoreSite 행의 합법성은
+후속 `checkFPlan`으로 별도 확인하며, 이 변경을 placement/DRC 통과로 해석하면 안 됩니다.
 `reports/floorplan/grid_check.txt`에 실제 Innovus 검사 결과도 저장합니다.
 
 수정 후 반드시 새 세션에서 0번부터 재생성해야 합니다. 저장된 체크포인트에

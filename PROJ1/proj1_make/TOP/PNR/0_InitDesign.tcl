@@ -18,7 +18,9 @@ checkDesign -io -netlist -physicalLibrary -powerGround -timingLibrary -outdir re
 # 2mm trial floorplan, using the reported 60x240um IO / 240x240um corner sizes.
 # PlacementGrid origin=(0,0), pitch=(0.2,0.19)um, reported by the server.
 # Die-relative margins avoid adding the 240um IO depth to the requested margin.
-floorPlan -site CoreSite -coreMarginsBy die -adjustToSite -fplanOrigin llcorner -d 2000 1999.94 350 349.98 350 349.98
+# Do not use -adjustToSite: its site-size rounding can override grid-aligned boxes.
+# Keep normal grid snapping enabled and check the actual database coordinates below.
+floorPlan -site CoreSite -coreMarginsBy die -fplanOrigin llcorner -d 2000 1999.94 350 349.98 350 349.98
 uart_check_live_floorplan
 # All pad positions come from init.io; no unrelated padNN coordinates.
 foreach side {n s w e} {
