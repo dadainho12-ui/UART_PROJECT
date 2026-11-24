@@ -56,15 +56,24 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
    padIORINGCORNER, padIORINGFEED* 및 CoreSite 이름/크기를 확인하세요.
    QRC 파일은 실제 배포본과 일치해야 합니다. 기본 경로가 다르면 환경 변수로 지정합니다.
    fast/slow basicCells와 pads_FF/SS 타이밍 라이브러리가 필요합니다.
-2. **면적·패드**: 참고본의 die 4030×4030µm, core margin 1200µm를 유지한 시작안입니다.
-   UART 면적에 최적화한 크기는 아닙니다. IO offset은 300µm부터 280µm 간격이며,
-   실제 LEF 크기/회전/코너/IO filler 배치의 합법성을 `checkDesign`에서 확인해야 합니다.
-   전원 패드 각 종류 4개는 초기 구성이고 전류/ESD/패키지 요구를 만족한다는 보장은 없습니다.
-3. **전원**: 기존 PowerPlan의 VDD/VSS 연결 및 Metal10/11 링/스트라이프를 유지했습니다.
-   빈 포트 전원 패드 선언은 참고본과 같은 global PG 연결 방식을 전제로 합니다.
-   실제 LEF/Liberty의 PG pin 이름, 코어·IO 전원 도메인과 전압을 확인하세요.
-   별도 IO 전원이 필요한 라이브러리라면 해당 net/PG pin 연결 및 링을 추가해야 합니다.
-   임의로 IO 전원을 코어 VDD에 묶지 않았습니다. `verifyConnectivity` 결과를 검토하세요.
+2. **면적·패드**: die 2000×2000µm, core margin 350µm의 시험안입니다.
+   사용자 서버에서 확인한 PADDI/PADDO 및 전원 패드는 60×240µm, 코너는 240×240µm입니다.
+   IO 시작점 간격은 100µm(패드 사이 40µm)이며 각 변 중앙에 배치합니다.
+   left offset 620~1320, bottom/right 420~1520, top 570~1370µm입니다.
+   직사각형 치수 계산은 통과했지만 실제 LEF origin/회전/핀/OBS, IO filler,
+   CoreSite 그리드와 배선 규칙은 Innovus에서 확인해야 합니다. 아직 최소 면적 확정안은 아닙니다.
+   전원 패드 각 종류 4개는 초기 구성이고 전류/ESD/패키지 요구를 보증하지 않습니다.
+3. **전원**: Metal11 수평/Metal10 수직의 단일 VDD/VSS 코어 링을 사용합니다.
+   링 offset 20µm, 선폭 각 5µm, 간격 5µm입니다. 외부 1000µm 링과 링 사이
+   연결용 스트라이프는 제거했습니다. 코어 수직 스트라이프(선폭/간격 5µm,
+   set pitch 100µm, start offset 50µm)를 생성하고 ring까지 연장하도록 설정한 뒤
+   corePin/padPin을 연결합니다.
+   기하학적 계산상 패드 깊이와 링 외곽 사이 여유는 75µm입니다.
+   빈 포트 전원 패드 선언과 VDD/VSS PG pin 연결은 참고본 방식을 유지합니다.
+   실제 PG pin 이름, IO 전원 도메인/전압에 맞는지 확인하세요. 별도 IO 전원이 필요하면
+   해당 연결/링을 추가해야 하며 IO 전원을 코어 VDD에 임의로 묶지 않았습니다.
+   `verifyConnectivity -type special`로 PG 배선을 검사하며 open/pin 오류를 숨기지 않습니다.
+   이 설정은 전류 용량/IR drop이나 실제 연결을 검증한 결과가 아닙니다.
 4. **타이밍**: PNR은 `asic_top_50mhz.sdc`의 MAIN_CLOCK **20ns(50MHz)**,
    waveform `{0.0 10.0}`을 사용합니다. RTL의 CLK_FREQ=50MHz와 일치하며
    전력 분석 switching activity 주기도 20ns입니다. 원본 합성 SDC의 8ns 제약은 보존합니다.
@@ -78,3 +87,21 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
 
 `clean.tcl`은 기존처럼 **shell의 rm 명령 목록**이며 Tcl source 대상이 아닙니다.
 실행하면 보고서/체크포인트/ECO 결과가 삭제되므로 필요한 결과를 먼저 보존하세요.
+
+## 2mm 변경 검증 및 재실행
+
+`tclsh validate_floorplan.tcl`로 저장된 floorPlan, IO offset, 단일 링/스트라이프의
+외곽 치수를 검사합니다. 사용자 제공 셀 크기를 전제로 하며 LEF/DRC 검사를 대체하지 않습니다.
+0번과 1번 실행 시에도 이 검사를 자동 실행합니다. Python은 필요하지 않습니다.
+
+크기 변경 전의 `.dat`를 재사용하지 말고 0번부터 다시 실행하세요. 검토용 실행 순서:
+
+```tcl
+source 0_InitDesign.tcl
+# standalone 실행은 종료하므로 새 Innovus 세션에서:
+source 1_PowerPlan.tcl
+```
+
+`all.tcl`을 실행하면 후속 placement/CTS/route까지 이어집니다. 먼저 0번과 1번의
+reports/init, reports/floorplan, reports/powerplan 및 PG connectivity 메시지를 확인하세요.
+이후 placement의 밀도/혼잡도와 timing, 최종 DRC/IR drop을 확인해야 합니다.
