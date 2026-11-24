@@ -16,12 +16,15 @@ init_design
 checkDesign -io -netlist -physicalLibrary -powerGround -timingLibrary -outdir reports/init
 
 # 2mm trial floorplan, using the reported 60x240um IO / 240x240um corner sizes.
-# Actual library/site-grid legality must still be checked in Innovus.
-floorPlan -site CoreSite -d 2000 2000 350 350 350 350
+# PlacementGrid origin=(0,0), pitch=(0.2,0.19)um, reported by the server.
+# Die-relative margins avoid adding the 240um IO depth to the requested margin.
+floorPlan -site CoreSite -coreMarginsBy die -adjustToSite -fplanOrigin llcorner -d 2000 1999.94 350 349.98 350 349.98
+uart_check_live_floorplan
 # All pad positions come from init.io; no unrelated padNN coordinates.
 foreach side {n s w e} {
     addIoFiller -cell padIORINGFEED60 padIORINGFEED10 padIORINGFEED5 padIORINGFEED3 padIORINGFEED1 -prefix IO_FILLER -side $side
 }
 checkDesign -io -floorplan -outdir reports/floorplan
+checkFPlan -outFile reports/floorplan/grid_check.txt
 saveDesign -def InitDesign
 if {![info exists ::pnr_batch]} { exit }

@@ -56,7 +56,9 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
    padIORINGCORNER, padIORINGFEED* 및 CoreSite 이름/크기를 확인하세요.
    QRC 파일은 실제 배포본과 일치해야 합니다. 기본 경로가 다르면 환경 변수로 지정합니다.
    fast/slow basicCells와 pads_FF/SS 타이밍 라이브러리가 필요합니다.
-2. **면적·패드**: die 2000×2000µm, core margin 350µm의 시험안입니다.
+2. **면적·패드**: die 2000×1999.94µm, die 기준 좌우 여백 350µm / 상하 349.98µm의 시험안입니다.
+   `-coreMarginsBy die`로 IO 높이 240µm가 여백에 추가되지 않도록 명시했습니다.
+   원점 (0,0), PlacementGrid (0.2,0.19)µm에 맞춘 코어는 1300×1299.98µm입니다.
    사용자 서버에서 확인한 PADDI/PADDO 및 전원 패드는 60×240µm, 코너는 240×240µm입니다.
    IO 시작점 간격은 100µm(패드 사이 40µm)이며 각 변 중앙에 배치합니다.
    left offset 620~1320, bottom/right 420~1520, top 570~1370µm입니다.
@@ -68,7 +70,7 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
    연결용 스트라이프는 제거했습니다. 코어 수직 스트라이프(선폭/간격 5µm,
    set pitch 100µm, start offset 50µm)를 생성하고 ring까지 연장하도록 설정한 뒤
    corePin/padPin을 연결합니다.
-   기하학적 계산상 패드 깊이와 링 외곽 사이 여유는 75µm입니다.
+   기하학적 계산상 패드 깊이와 링 외곽 사이 여유는 좌우 75µm, 상하 74.98µm입니다.
    빈 포트 전원 패드 선언과 VDD/VSS PG pin 연결은 참고본 방식을 유지합니다.
    실제 PG pin 이름, IO 전원 도메인/전압에 맞는지 확인하세요. 별도 IO 전원이 필요하면
    해당 연결/링을 추가해야 하며 IO 전원을 코어 VDD에 임의로 묶지 않았습니다.
@@ -91,7 +93,7 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
 ## 2mm 변경 검증 및 재실행
 
 `tclsh validate_floorplan.tcl`로 저장된 floorPlan, IO offset, 단일 링/스트라이프의
-외곽 치수를 검사합니다. 사용자 제공 셀 크기를 전제로 하며 LEF/DRC 검사를 대체하지 않습니다.
+외곽 치수와 서버에서 확인한 placement/manufacturing grid 정렬을 검사합니다. 사용자 제공 셀 크기를 전제로 하며 LEF/DRC 검사를 대체하지 않습니다.
 0번과 1번 실행 시에도 이 검사를 자동 실행합니다. Python은 필요하지 않습니다.
 
 크기 변경 전의 `.dat`를 재사용하지 말고 0번부터 다시 실행하세요. 검토용 실행 순서:
@@ -105,3 +107,17 @@ source 1_PowerPlan.tcl
 `all.tcl`을 실행하면 후속 placement/CTS/route까지 이어집니다. 먼저 0번과 1번의
 reports/init, reports/floorplan, reports/powerplan 및 PG connectivity 메시지를 확인하세요.
 이후 placement의 밀도/혼잡도와 timing, 최종 DRC/IR drop을 확인해야 합니다.
+
+## 서버 그리드 오류 반영
+
+서버의 PlacementGrid 원점은 (0,0), X pitch 0.2µm / Y pitch 0.19µm입니다.
+ManufacturingGrid는 X/Y 모두 0.005µm입니다. 기존 350µm Y 여백과 2000µm 높이는
+PlacementGrid에 맞지 않았고, 기본 IO 기준 여백으로 실제 코어가 약 820µm가 됐습니다.
+이번에는 die 기준을 명시하고 Y 경계를 1999.94, 349.98, 1649.96µm로 정렬했습니다.
+`-adjustToSite` 이후 실제 die/core 좌표도 조회하여 그리드 불일치 시 filler 삽입 전에 중단합니다.
+`reports/floorplan/grid_check.txt`에 실제 Innovus 검사 결과도 저장합니다.
+
+수정 후 반드시 새 세션에서 0번부터 재생성해야 합니다. 저장된 체크포인트에
+floorPlan만 재실행하면 기존 IO filler가 남을 수 있습니다. 이전 RN 미연결 경고와
+Area IO 전원 패드, VDDPAD25/VSSPAD 연결 문제는 이번 코어 그리드 수정과 별도이며
+실제 보고서를 다시 확인해야 합니다. 그리드 옵션을 끄거나 전원 전압을 임의 연결하지 않습니다.
