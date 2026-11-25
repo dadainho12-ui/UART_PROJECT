@@ -22,7 +22,9 @@ checkDesign -io -netlist -physicalLibrary -powerGround -timingLibrary -outdir re
 # Keep normal grid snapping enabled and check the actual database coordinates below.
 floorPlan -site CoreSite -coreMarginsBy die -fplanOrigin llcorner -d 2000 1999.94 350 349.98 350 349.98
 uart_check_live_floorplan
-# All pad positions come from init.io; no unrelated padNN coordinates.
+# PADVDD/PADVSS are relocated as Area IO during floorPlan. Restore their IO slots
+# from init.io using the actual IOR pad positions, BEFORE adding IO fillers.
+source [file join $pnr_dir place_power_pads.tcl]
 foreach side {n s w e} {
     addIoFiller -cell padIORINGFEED60 padIORINGFEED10 padIORINGFEED5 padIORINGFEED3 padIORINGFEED1 -prefix IO_FILLER -side $side
 }

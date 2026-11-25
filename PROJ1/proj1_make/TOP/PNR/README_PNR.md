@@ -125,3 +125,20 @@ die 높이 2000µm / core 상단 Y=1650.02µm로 바뀌어 0.19µm grid와 불�
 floorPlan만 재실행하면 기존 IO filler가 남을 수 있습니다. 이전 RN 미연결 경고와
 Area IO 전원 패드, VDDPAD25/VSSPAD 연결 문제는 이번 코어 그리드 수정과 별도이며
 실제 보고서를 다시 확인해야 합니다. 그리드 옵션을 끄거나 전원 전압을 임의 연결하지 않습니다.
+
+## Area IO 전원 패드 위치 복원
+
+서버 화면과 checkPlace 결과에서 floorPlan 이후 PADVDD/PADVSS 8개가 코어 안쪽으로
+이동하고 상단 두 개가 코어 경계를 걸친 것이 확인됐습니다. 참고본의 수동 전원 패드
+배치 단계가 필요합니다. 0번은 floorPlan 이후, IO filler 삽입 전에
+`place_power_pads.tcl`을 실행합니다. 각 변의 PADVDDIOR/PADVSSIOR 실제 위치와 방향을
+기준으로 init.io의 전원 패드 offset을 복원합니다. IOR이 die 경계에 없거나, 치수/방향이
+예상과 다르거나, 이동 후 IO/코너와 겹치면 중단합니다. 라이브러리 class는 변경하지 않습니다.
+
+기존 filler를 포함한 체크포인트에 이 스크립트를 덧실행하지 말고 새 세션에서 0번을
+재실행하세요. 실제 Innovus placeInstance의 결과 box/orientation을 출력하고 확인합니다.
+이동 계산과 모의 DB 검사는 실제 그리드/배선/PG 연결 검증을 대신하지 않습니다.
+PADVDD/PADVSS는 의도적으로 코어 밖 IO 링에 배치되므로 Area IO를 표준셀처럼 다루는
+checkPlace의 코어 밖 판정만으로 합법성을 확정하지 않습니다. 실제 checkFPlan, IO 겹침,
+라이브러리 subclass 및 전원 연결 보고서를 함께 검토해야 합니다. 남은 IMPFP-7251 및
+RN/VDDPAD25/VSSPAD 경고가 해결됐다는 의미는 아닙니다.
