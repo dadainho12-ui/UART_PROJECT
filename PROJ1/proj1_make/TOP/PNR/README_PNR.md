@@ -35,6 +35,7 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
 - `generated/asic_top_pnr.v`: PNR 전용 넷리스트. 재실행 시 동일 입력이면 동일 결과입니다.
 - `init.io`: 신호 25개 + 전원 16개, 물리 코너 4개. 코너는 Verilog 논리 인스턴스가 아닙니다.
 - `pnr_config.tcl`: 공통 경로 및 출력 디렉터리 설정.
+- `prepare_io_lef.tcl`: 설치된 IO LEF를 읽어 전원 패드 두 셀의 CLASS만 바꾼 로컬 뷰 생성.
 - `asic_top.mmmc.view`: PNR용 `asic_top_50mhz.sdc`, FF/SS 타이밍 라이브러리, GPDK045 QRC 사용.
   기존의 공정명이 다른 `cln28hpl` capacitance table 참조는 제거했습니다.
 
@@ -142,3 +143,26 @@ PADVDD/PADVSS는 의도적으로 코어 밖 IO 링에 배치되므로 Area IO를
 checkPlace의 코어 밖 판정만으로 합법성을 확정하지 않습니다. 실제 checkFPlan, IO 겹침,
 라이브러리 subclass 및 전원 연결 보고서를 함께 검토해야 합니다. 남은 IMPFP-7251 및
 RN/VDDPAD25/VSSPAD 경고가 해결됐다는 의미는 아닙니다.
+
+## PADVDD/PADVSS의 주변 IO 링용 물리 뷰
+
+서버에서 두 셀의 원본 선언이 `CLASS PAD AREAIO ; SITE IOSite ;`임을 확인했습니다.
+8개 인스턴스를 제거한 비교 검사에서 IMPFP-7251이 사라졌으므로, 이번 UART의 주변
+IO 링 배치에는 두 매크로를 `CLASS PAD POWER`로 해석하는 파생 물리 뷰를 시험합니다.
+접지 패드 PADVSS도 LEF PAD의 POWER 분류를 사용하며, 핀의 USE GROUND 등은 변경하지 않습니다.
+
+0번은 init_design 전에 원본 LEF를 읽어 `generated/giolib045_pnr.lef`를 생성하고
+기존 IO LEF 대신 읽습니다. 변경 대상은 PADVDD/PADVSS의 CLASS 두 줄뿐입니다.
+원본 PDK, SITE/ORIGIN/SIZE, 핀, USE/PORT/OBS, Liberty, GDS 및 전원 연결은 변경하지 않습니다.
+예상하지 못한 매크로/분류/사이트이면 자동 변경하지 않고 중단합니다. Python은 필요 없습니다.
+생성된 라이브러리 파일은 /generated/ ignore 규칙으로 Git에서 제외되며 커밋하지 않습니다.
+
+모의 LEF로 범위/원본 보존/재실행 검사는 했지만 실제 PDK와 Innovus로 이 변경을 검증한 것은
+아닙니다. CLASS를 바꾸는 것은 도구의 배치 해석을 바꾸는 설계 선택이며, 실제 패드가
+주변 링 용도로 허용되는지는 라이브러리 지침/담당자 확인과 PG/ESD 검증이 필요합니다.
+Area IO로 사용하는 다른 프로젝트에는 원본을 그대로 사용하세요.
+
+새 Innovus 세션에서 0번부터 재생성하고, `Loaded power-pad classification` 두 줄,
+checkFPlan/grid_check.txt와 전체 오류 요약을 확인하세요. 기존 checkpoint에는 새 물리 뷰가
+반영되지 않습니다. 8개 전원 패드는 삭제하지 않으며 기존 위치 복원 단계도 유지합니다.
+이 변경은 VDDPAD25/VSSPAD 또는 RN 연결 경고를 해결하는 작업과는 별개입니다.

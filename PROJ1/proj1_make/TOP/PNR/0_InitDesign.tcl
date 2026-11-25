@@ -5,6 +5,13 @@ source [file join $pnr_dir validate_floorplan.tcl]
 source [file join $pnr_dir prepare_pnr.tcl]
 foreach lef $pnr_lefs { require_pnr_file $lef }
 require_pnr_file $qrc_tech
+# Use a generated view for perimeter power pads; never modify the installed PDK.
+source [file join $pnr_dir prepare_io_lef.tcl]
+set source_io_lef [file join $io_root lef giolib045_modify.lef]
+set io_lef_index [lsearch -exact $pnr_lefs $source_io_lef]
+if {$io_lef_index < 0} { error "Original IO LEF missing from pnr_lefs" }
+set pnr_io_lef [uart_prepare_io_lef $source_io_lef [file join $pnr_dir generated giolib045_pnr.lef]]
+set pnr_lefs [lreplace $pnr_lefs $io_lef_index $io_lef_index $pnr_io_lef]
 set init_gnd_net VSS
 set init_pwr_net VDD
 set init_lef_file $pnr_lefs
@@ -13,6 +20,16 @@ set init_mmmc_file [file join $pnr_dir asic_top.mmmc.view]
 set init_io_file [file join $pnr_dir init.io]
 set init_top_cell asic_top
 init_design
+foreach cell {PADVDD PADVSS} {
+    set ptr [dbGet head.libCells.name $cell -p]
+    if {[llength $ptr] != 1 || $ptr eq "0x0"} {error "Missing/ambiguous power-pad cell: $cell"}
+    set base_class [dbGet $ptr.baseClass]
+    set sub_class [dbGet $ptr.subClass]
+    puts "Loaded power-pad classification: $cell $base_class / $sub_class"
+    if {$base_class ne "pad" || $sub_class eq "padAreaIO"} {
+        error "Power-pad physical view was not applied: $cell $base_class / $sub_class"
+    }
+}
 checkDesign -io -netlist -physicalLibrary -powerGround -timingLibrary -outdir reports/init
 
 # 2mm trial floorplan, using the reported 60x240um IO / 240x240um corner sizes.
