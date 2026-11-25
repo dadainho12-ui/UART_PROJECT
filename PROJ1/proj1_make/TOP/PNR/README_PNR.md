@@ -152,8 +152,9 @@ IO 링 배치에는 두 매크로를 `CLASS PAD POWER`로 해석하는 파생 �
 접지 패드 PADVSS도 LEF PAD의 POWER 분류를 사용하며, 핀의 USE GROUND 등은 변경하지 않습니다.
 
 0번은 init_design 전에 원본 LEF를 읽어 `generated/giolib045_pnr.lef`를 생성하고
-기존 IO LEF 대신 읽습니다. 변경 대상은 PADVDD/PADVSS의 CLASS 두 줄뿐입니다.
-원본 PDK, SITE/ORIGIN/SIZE, 핀, USE/PORT/OBS, Liberty, GDS 및 전원 연결은 변경하지 않습니다.
+기존 IO LEF 대신 읽습니다. 변경 대상은 PADVDD/PADVSS의 매크로 CLASS와 주 공급 핀 PORT의 CLASS입니다.
+PADVDD/VDD 및 PADVSS/VSS PORT에 CLASS CORE를 추가하는 시험안은 POWER_PORT_CHECK.md를 참조하세요.
+원본 PDK, SITE/ORIGIN/SIZE, 핀 이름/USE, PORT의 레이어·형상 및 OBS, Liberty, GDS와 전원 연결은 변경하지 않습니다.
 예상하지 못한 매크로/분류/사이트이면 자동 변경하지 않고 중단합니다. Python은 필요 없습니다.
 생성된 라이브러리 파일은 /generated/ ignore 규칙으로 Git에서 제외되며 커밋하지 않습니다.
 
