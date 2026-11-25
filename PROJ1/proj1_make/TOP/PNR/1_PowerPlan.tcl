@@ -39,7 +39,8 @@ sroute -connect { padPin } -layerChangeRange { Metal1(1) Metal11(11) } -blockPin
 
 
 # Check PG nets only: signal routing has not run. Do not suppress opens/unconnected pins.
-verifyConnectivity -type special -error 1000 -warning 50
+file mkdir reports/powerplan
+verifyConnectivity -type special -nets {VDD VSS} -report reports/powerplan/pg_connectivity.rpt -error 1000 -warning 50
 
 ## If there is no error, Save Design
 checkDesign -floorplan -powerGround -outdir reports/powerplan

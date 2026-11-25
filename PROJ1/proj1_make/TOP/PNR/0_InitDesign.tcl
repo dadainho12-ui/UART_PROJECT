@@ -37,7 +37,10 @@ checkDesign -io -netlist -physicalLibrary -powerGround -timingLibrary -outdir re
 # Die-relative margins avoid adding the 240um IO depth to the requested margin.
 # Do not use -adjustToSite: its site-size rounding can override grid-aligned boxes.
 # Keep normal grid snapping enabled and check the actual database coordinates below.
-floorPlan -site CoreSite -coreMarginsBy die -fplanOrigin llcorner -d 2000 1999.94 350 349.98 350 349.98
+# The IO fillers have integer-micron widths: keep a 2000um die edge.
+# Die/IO use ManufacturingGrid; the core still uses PlacementGrid.
+setFPlanMode -snapDieGrid manufacturing -snapCoreGrid placement -snapIoGrid manufacturing
+floorPlan -site CoreSite -coreMarginsBy die -fplanOrigin llcorner -d 2000 2000 350 349.98 350 350.04
 uart_check_live_floorplan
 # PADVDD/PADVSS are relocated as Area IO during floorPlan. Restore their IO slots
 # from init.io using the actual IOR pad positions, BEFORE adding IO fillers.

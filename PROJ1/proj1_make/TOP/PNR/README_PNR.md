@@ -57,7 +57,7 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
    padIORINGCORNER, padIORINGFEED* 및 CoreSite 이름/크기를 확인하세요.
    QRC 파일은 실제 배포본과 일치해야 합니다. 기본 경로가 다르면 환경 변수로 지정합니다.
    fast/slow basicCells와 pads_FF/SS 타이밍 라이브러리가 필요합니다.
-2. **면적·패드**: die 2000×1999.94µm, die 기준 좌우 여백 350µm / 상하 349.98µm의 시험안입니다.
+2. **면적·패드**: die 2000×2000µm, die 기준 좌우 여백 350µm / 하단 349.98µm·상단 350.04µm의 시험안입니다.
    `-coreMarginsBy die`로 IO 높이 240µm가 여백에 추가되지 않도록 명시했습니다.
    원점 (0,0), PlacementGrid (0.2,0.19)µm에 맞춘 코어는 1300×1299.98µm입니다.
    사용자 서버에서 확인한 PADDI/PADDO 및 전원 패드는 60×240µm, 코너는 240×240µm입니다.
@@ -71,11 +71,11 @@ ECO는 기본 흐름에 포함하지 않습니다. Tempus 분석 후 실제 `inn
    연결용 스트라이프는 제거했습니다. 코어 수직 스트라이프(선폭/간격 5µm,
    set pitch 100µm, start offset 50µm)를 생성하고 ring까지 연장하도록 설정한 뒤
    corePin/padPin을 연결합니다.
-   기하학적 계산상 패드 깊이와 링 외곽 사이 여유는 좌우 75µm, 상하 74.98µm입니다.
+   기하학적 계산상 패드 깊이와 링 외곽 사이 여유는 좌우 75µm, 하단 74.98µm, 상단 75.04µm입니다.
    빈 포트 전원 패드 선언과 VDD/VSS PG pin 연결은 참고본 방식을 유지합니다.
    실제 PG pin 이름, IO 전원 도메인/전압에 맞는지 확인하세요. 별도 IO 전원이 필요하면
    해당 연결/링을 추가해야 하며 IO 전원을 코어 VDD에 임의로 묶지 않았습니다.
-   `verifyConnectivity -type special`로 PG 배선을 검사하며 open/pin 오류를 숨기지 않습니다.
+   `verifyConnectivity -type special -nets {VDD VSS}`로 PG 배선을 검사하며 open/pin 오류를 숨기지 않습니다.
    이 설정은 전류 용량/IR drop이나 실제 연결을 검증한 결과가 아닙니다.
 4. **타이밍**: PNR은 `asic_top_50mhz.sdc`의 MAIN_CLOCK **20ns(50MHz)**,
    waveform `{0.0 10.0}`을 사용합니다. RTL의 CLK_FREQ=50MHz와 일치하며
@@ -114,10 +114,13 @@ reports/init, reports/floorplan, reports/powerplan 및 PG connectivity 메시지
 서버의 PlacementGrid 원점은 (0,0), X pitch 0.2µm / Y pitch 0.19µm입니다.
 ManufacturingGrid는 X/Y 모두 0.005µm입니다. 기존 350µm Y 여백과 2000µm 높이는
 PlacementGrid에 맞지 않았고, 기본 IO 기준 여백으로 실제 코어가 약 820µm가 됐습니다.
-이번에는 die 기준을 명시하고 Y 경계를 1999.94, 349.98, 1649.96µm로 정렬했습니다.
+현재 시험안은 die를 ManufacturingGrid에 맞춘 정수 2000µm로 유지하고,
+코어 Y 경계만 PlacementGrid에 맞춰 349.98, 1649.96µm로 정렬합니다.
+이전 die 높이 1999.94µm에서는 상단 코너와 IO 배선 사이 0.94µm 간격이 보고됐습니다.
 `-adjustToSite`는 사용하지 않습니다. 해당 옵션을 사용한 서버 실행에서는 요청한 경계가
 die 높이 2000µm / core 상단 Y=1650.02µm로 바뀌어 0.19µm grid와 불일치했습니다.
-일반 grid snapping은 유지하고 실제 die/core 좌표를 모두 출력한 뒤 불일치 시 filler 삽입 전에 중단합니다.
+die/IO는 manufacturing, core는 placement grid로 snapping을 명시합니다.
+실제 die/core 좌표와 정수 IO 외곽 치수를 검사하며 불일치 시 filler 삽입 전에 중단합니다.
 옵션 제거 후 경계가 유지되는지는 서버에서 재실행하여 확인해야 합니다. CoreSite 행의 합법성은
 후속 `checkFPlan`으로 별도 확인하며, 이 변경을 placement/DRC 통과로 해석하면 안 됩니다.
 `reports/floorplan/grid_check.txt`에 실제 Innovus 검사 결과도 저장합니다.

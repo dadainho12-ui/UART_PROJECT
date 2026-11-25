@@ -22,11 +22,6 @@ proc uart_require_grid {name x y px py ox oy} {
     }
 }
 proc uart_check_live_floorplan {} {
-    set px [get_snap_grid_info -type placement -pitch_x]
-    set py [get_snap_grid_info -type placement -pitch_y]
-    set origin [regexp -all -inline {[-+]?[0-9]+(?:\.[0-9]+)?} [get_snap_grid_info -type placement -origin]]
-    if {[llength $origin] != 2} {error "Cannot read PlacementGrid origin"}
-    lassign $origin ox oy
     set boxes [dict create]
     foreach kind {box coreBox} {
         set box [regexp -all -inline {[-+]?[0-9]+(?:\.[0-9]+)?} [dbGet top.fPlan.$kind]]
@@ -34,13 +29,21 @@ proc uart_check_live_floorplan {} {
         dict set boxes $kind $box
         puts "Actual $kind: $box"
     }
-    foreach kind {box coreBox} {
-        set box [dict get $boxes $kind]
-        lassign $box x1 y1 x2 y2
+    foreach kind {box coreBox} grid_type {manufacturing placement} {
+        set px [get_snap_grid_info -type $grid_type -pitch_x]
+        set py [get_snap_grid_info -type $grid_type -pitch_y]
+        set origin [regexp -all -inline {[-+]?[0-9]+(?:\.[0-9]+)?} [get_snap_grid_info -type $grid_type -origin]]
+        if {[llength $origin] != 2} {error "Cannot read $grid_type grid origin"}
+        lassign $origin ox oy
+        lassign [dict get $boxes $kind] x1 y1 x2 y2
         uart_require_grid "$kind lower-left" $x1 $y1 $px $py $ox $oy
         uart_require_grid "$kind upper-right" $x2 $y2 $px $py $ox $oy
+        if {$kind eq "box"} {
+            # A legal manufacturing-grid edge can still leave an unfillable 0.94um gap.
+            uart_require_grid "IO filler perimeter dimensions" [expr {$x2-$x1}] [expr {$y2-$y1}] 1 1 0 0
+        }
     }
-    puts "PASS: actual die/core corners are on PlacementGrid (IO legality still requires checkFPlan)"
+    puts "PASS: die on ManufacturingGrid/integer IO perimeter; core on PlacementGrid (PG connectivity remains unverified)"
 }
 proc uart_validate_floorplan {dir} {
     set init [uart_geometry_read [file join $dir 0_InitDesign.tcl]]
@@ -48,8 +51,8 @@ proc uart_validate_floorplan {dir} {
     set at [lsearch -exact $floor -d]
     if {$at < 0} {error "Expected explicit die dimensions (-d)"}
     set dimensions [lrange $floor [expr {$at+1}] end]
-    if {$dimensions ne {2000 1999.94 350 349.98 350 349.98}} {
-        error "Expected grid-aligned 2mm trial: 2000 1999.94 350 349.98 350 349.98"
+    if {$dimensions ne {2000 2000 350 349.98 350 350.04}} {
+        error "Expected grid-aligned 2mm trial: 2000 2000 350 349.98 350 350.04"
     }
     if {[uart_geometry_option $floor -coreMarginsBy] ne "die" ||
         [uart_geometry_option $floor -fplanOrigin] ne "llcorner" ||
@@ -57,14 +60,18 @@ proc uart_validate_floorplan {dir} {
         [lsearch -exact $floor -noSnapToGrid] >= 0} {
         error "Require die-relative margins and llcorner origin; omit -adjustToSite/-noSnapToGrid"
     }
+    if {![regexp -line {^setFPlanMode -snapDieGrid manufacturing -snapCoreGrid placement -snapIoGrid manufacturing$} $init]} {
+        error "Require explicit manufacturing die/IO and placement core grids"
+    }
     lassign $dimensions die_w die_h left bottom right top
     set core_w [expr {$die_w-$left-$right}]
     set core_h [expr {$die_h-$bottom-$top}]
     set margins [dict create left $left bottom $bottom right $right top $top]
-    foreach {label x y} [list die_ll 0 0 die_ur $die_w $die_h \
-        core_ll $left $bottom core_ur [expr {$die_w-$right}] [expr {$die_h-$top}]] {
-        uart_require_grid $label $x $y 0.2 0.19 0 0
-    }
+    uart_require_grid die_dimensions $die_w $die_h 1 1 0 0
+    uart_require_grid die_ll 0 0 0.005 0.005 0 0
+    uart_require_grid die_ur $die_w $die_h 0.005 0.005 0 0
+    uart_require_grid core_ll $left $bottom 0.2 0.19 0 0
+    uart_require_grid core_ur [expr {$die_w-$right}] [expr {$die_h-$top}] 0.2 0.19 0 0
     set io [uart_geometry_read [file join $dir init.io]]
     set total 0
     foreach {side count} {left 8 bottom 12 right 12 top 9} {

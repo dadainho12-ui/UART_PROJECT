@@ -36,3 +36,21 @@ PIN/PORT 경계를 확인하지 않고 공급 핀의 접근 레이어로 해석�
 0번/1번의 실제 재실행 전에는 이 변경이 IMPSR-1256을 해결했다고 판단하지 않습니다.
 VDDPAD25/VSSPAD filler 입력 및 VDDIOR/VSSIOR의 net 매핑은 이번 변경 대상이 아닙니다.
 앞서 작성한 미승인 tie-cell 초안과도 별개입니다.
+
+## 상단 코너 간격과 정수 die 시험
+
+PORT CORE 적용 후 서버 로그에서 IO ports routed=8 / created wires=12를 확인했습니다.
+다만 VDD/VSS만 재검사해도 22건이 남았습니다. 4개 단자는 CORNER_TL/TR의 VDD/VSS,
+2건은 special-route open, 16건은 IO 주변 regular-route open입니다.
+이는 미배치 신호 셀 경고만으로 설명할 수 없습니다.
+
+상단 corner pin의 하단 Y=1759.94µm에 비해 인접 수직 IO 배선 조각은 Y=1759.0µm에서
+끝나며, 보고된 좌표 사이에는 0.94µm 간격이 있습니다. 제공된 모든 IO filler 폭은 정수 µm입니다.
+이번 시험은 die를 2000×2000µm, ManufacturingGrid로 유지하고 core 경계는 기존과 같은
+(350,349.98)–(1650,1649.96)으로 둡니다. core의 상단 여백은 350.04µm가 됩니다.
+그리드 검사를 끄지 않고 die/IO와 core에 맞는 그리드를 각각 적용합니다.
+
+이는 보고된 상단 코너 간격을 해결하기 위한 시험안이며, 전원 패드 위치 부근에서 끊긴
+나머지 IO rail 및 special-route open까지 전부 해결된다는 뜻은 아닙니다. 새 세션에서
+0→1을 재실행하고 reports/powerplan/pg_connectivity.rpt로 실제 연결을 재검증해야 합니다.
+원본 Cortex-M0 Tcl의 padPin/corePin 배선 방식은 유지하며 open 검사 억제는 추가하지 않습니다.
