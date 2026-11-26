@@ -1,0 +1,38 @@
+#######################################################
+#                                                     
+#  Innovus Command Logging File                     
+#  Created on Thu Nov 26 23:52:10 2026                
+#                                                     
+#######################################################
+
+#@(#)CDS: Innovus v22.17-s086_1 (64bit) 09/24/2024 10:51 (Linux 3.10.0-693.el7.x86_64)
+#@(#)CDS: NanoRoute 22.17-s086_1 NR240905-1647/22_17-UB (database version 18.20.629) {superthreading v2.20}
+#@(#)CDS: AAE 22.17-s013 (64bit) 09/24/2024 (Linux 3.10.0-693.el7.x86_64)
+#@(#)CDS: CTE 22.17-s017_1 () Sep 12 2024 04:53:54 ( )
+#@(#)CDS: SYNTECH 22.17-s006_1 () Aug 12 2024 03:52:27 ( )
+#@(#)CDS: CPE v22.17-s051
+#@(#)CDS: IQuantus/TQuantus 21.2.2-s369 (64bit) Tue May 7 14:30:42 PDT 2024 (Linux 3.10.0-693.el7.x86_64)
+
+set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+suppressMessage ENCEXT-2799
+win
+set enc_check_rename_command_name 1
+uiSetTool stretchWire
+restoreDesign PlaceOpt.dat
+set_interactive_constraint_modes [list FUNC]
+set_dont_use true $lib_cells
+create_ccopt_clock_tree_spec
+set_ccopt_property buffer_cells {BUFX12 BUFX16 BUFX20 BUFX3 BUFX4 BUFX6 BUFX8 CLKBUFX12 CLKBUFX16 CLKBUFX2 CLKBUFX20 CLKBUFX3 CLKBUFX4 CLKBUFX6 CLKBUFX8}
+set_ccopt_property inverter_cells {CLKINVX1 CLKINVX12 CLKINVX16 CLKINVX2 CLKINVX20 CLKINVX3 CLKINVX4 CLKINVX6 CLKINVX8 INVX1 INVX12 INVX16 INVX2 INVX20 INVX3 INVX4 INVX6 INVX8 INVXL}
+ccopt_design
+set_interactive_constraint_modes [list FUNC]
+set_propagated_clock [get_clocks MAIN_CLOCK]
+optDesign -postCTS
+optDesign -postCTS -hold
+report_ccopt_clock_trees -file reports/clock_trees.rpt
+report_ccopt_skew_groups -file reports/clock_skew_groups.rpt
+timeDesign -postCTS -outDir reports/timing/postCTS/setup
+timeDesign -postCTS -hold -outDir reports/timing/postCTS/hold
+saveDesign -def PostCTSopt
+fit
+fit

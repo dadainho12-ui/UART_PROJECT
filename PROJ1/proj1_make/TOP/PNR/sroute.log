@@ -1,0 +1,16 @@
+1 block selected.
+
+Total Ports:  2 pad ports
+  phase2 maze routing failed: 1 connection remains to try
+  phase2 maze routing failed: 0 connection remains to try
+Total CPU time for maze routing 1 seconds
+Port at (549.500 1848.945) : Not routed because too much congestion or blockage.
+Port at (540.500 1848.945) : Not routed because too much congestion or blockage.
+  Number of IO ports routed: 0  open: 2
+End power routing: cpu: 0:00:01, real: 0:00:02, peak: 3493.00 megs.
+
+Total Ports: 
+Total CPU time for maze routing 0 seconds
+  Number of Pad ports routed: 0
+End power routing: cpu: 0:00:00, real: 0:00:00, peak: 3493.00 megs.
+

@@ -1,0 +1,38 @@
+#######################################################
+#                                                     
+#  Innovus Command Logging File                     
+#  Created on Thu Nov 26 23:10:30 2026                
+#                                                     
+#######################################################
+
+#@(#)CDS: Innovus v22.17-s086_1 (64bit) 09/24/2024 10:51 (Linux 3.10.0-693.el7.x86_64)
+#@(#)CDS: NanoRoute 22.17-s086_1 NR240905-1647/22_17-UB (database version 18.20.629) {superthreading v2.20}
+#@(#)CDS: AAE 22.17-s013 (64bit) 09/24/2024 (Linux 3.10.0-693.el7.x86_64)
+#@(#)CDS: CTE 22.17-s017_1 () Sep 12 2024 04:53:54 ( )
+#@(#)CDS: SYNTECH 22.17-s006_1 () Aug 12 2024 03:52:27 ( )
+#@(#)CDS: CPE v22.17-s051
+#@(#)CDS: IQuantus/TQuantus 21.2.2-s369 (64bit) Tue May 7 14:30:42 PDT 2024 (Linux 3.10.0-693.el7.x86_64)
+
+set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+suppressMessage ENCEXT-2799
+win
+set enc_check_rename_command_name 1
+set init_verilog /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/SYN/mapped/uart_top_syn_final.v
+set init_top_cell uart_top
+set init_lef_file {/home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045_tech/lef/gsclib045_tech.lef /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/lef/gsclib045_macro.lef}
+set init_mmmc_file /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/uart_top.mmmc.view
+set init_pwr_net VDD
+set init_gnd_net VSS
+init_design
+setFPlanMode -snapDieGrid manufacturing -snapCoreGrid placement -snapIoGrid manufacturing
+floorPlan -site CoreSite -coreMarginsBy die -fplanOrigin llcorner -s 31.551276946 31.551276946 5.0 5.0 5.0 5.0
+setPinAssignMode -pinEditInBatch true
+editPin -pin {tx_start {tx_data[0]} {tx_data[1]} {tx_data[2]} {tx_data[3]} {tx_data[4]} {tx_data[5]} {tx_data[6]} {tx_data[7]} tx_busy tx_done} -side Left -layer Metal3 -spreadType SIDE -fixOverlap 1 -fixedPin 1
+editPin -pin {rx_valid frame_error {rx_data[0]} {rx_data[1]} {rx_data[2]} {rx_data[3]} {rx_data[4]} {rx_data[5]} {rx_data[6]} {rx_data[7]}} -side Right -layer Metal3 -spreadType SIDE -fixOverlap 1 -fixedPin 1
+editPin -pin {uart_rx uart_tx} -side Top -layer Metal2 -spreadType SIDE -fixOverlap 1 -fixedPin 1
+editPin -pin {clk reset_n} -side Bottom -layer Metal2 -spreadType SIDE -fixOverlap 1 -fixedPin 1
+setPinAssignMode -pinEditInBatch false
+checkDesign -netlist -physicalLibrary -timingLibrary -floorplan -outdir reports/init
+saveDesign -def InitDesign
+zoomBox -14.52750 -18.82950 43.63650 33.23950
+fit

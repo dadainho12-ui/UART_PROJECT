@@ -1,0 +1,37 @@
+#######################################################
+#                                                     
+#  Innovus Command Logging File                     
+#  Created on Fri Nov 27 00:20:40 2026                
+#                                                     
+#######################################################
+
+#@(#)CDS: Innovus v22.17-s086_1 (64bit) 09/24/2024 10:51 (Linux 3.10.0-693.el7.x86_64)
+#@(#)CDS: NanoRoute 22.17-s086_1 NR240905-1647/22_17-UB (database version 18.20.629) {superthreading v2.20}
+#@(#)CDS: AAE 22.17-s013 (64bit) 09/24/2024 (Linux 3.10.0-693.el7.x86_64)
+#@(#)CDS: CTE 22.17-s017_1 () Sep 12 2024 04:53:54 ( )
+#@(#)CDS: SYNTECH 22.17-s006_1 () Aug 12 2024 03:52:27 ( )
+#@(#)CDS: CPE v22.17-s051
+#@(#)CDS: IQuantus/TQuantus 21.2.2-s369 (64bit) Tue May 7 14:30:42 PDT 2024 (Linux 3.10.0-693.el7.x86_64)
+
+set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+suppressMessage ENCEXT-2799
+win
+set enc_check_rename_command_name 1
+restoreDesign RouteDesign.dat
+addFiller -cell {FILL64 FILL32 FILL16 FILL8 FILL4 FILL2 FILL1} -prefix UART_FILL
+set_interactive_constraint_modes [list FUNC]
+set_propagated_clock [get_clocks MAIN_CLOCK]
+extractRC
+timeDesign -postRoute -outDir reports/timing/final/setup
+timeDesign -postRoute -hold -outDir reports/timing/final/hold
+setAnalysisMode -checkType setup
+report_timing -check_type recovery -from [get_ports reset_n] -path_type full_clock  -max_paths 10 > [file join $dir reset_recovery.rpt]
+setAnalysisMode -checkType hold
+report_timing -check_type removal -from [get_ports reset_n] -path_type full_clock  -max_paths 10 > [file join $dir reset_removal.rpt]
+set_verify_drc_mode -report reports/final_drc.rpt
+verify_drc
+verifyConnectivity -type all -geomConnect -report reports/final_connectivity.rpt
+saveDesign -rc -def ChipFinish
+saveNetlist -flat uart_top_pnr.v
+writeTimingCon uart_top_pnr.sdc
+write_sdf uart_top.sdf

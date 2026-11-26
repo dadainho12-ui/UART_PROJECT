@@ -1,10 +1,14 @@
-#!/bin/csh -f
-## Start Time
-echo -n "Syn Start : " > cds_syn_runtime
-date > cds_syn_runtime
+#!/bin/bash
+set -euo pipefail
 
-genus -f ./script/cortexm0_45nm.tcl -log ./log/all.log
+syn_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+command -v genus >/dev/null || { echo "genus is not on PATH" >&2; exit 1; }
 
-## End Time
-echo -n "Syn End   : " >> cds_syn_runtime
-date >> cds_syn_runtime
+cd -- "$syn_dir"
+mkdir -p log report mapped
+rm -f -- log/synthesis.ok
+genus -batch -f "$syn_dir/script/uart_top_synth.tcl" -log ./log/all.log
+if [[ ! -f log/synthesis.ok ]]; then
+    printf 'Synthesis did not complete. See %s/log/all.log\n' "$syn_dir" >&2
+    exit 1
+fi

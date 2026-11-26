@@ -45,7 +45,7 @@ proc uart_check_live_floorplan {} {
     }
     puts "PASS: die on ManufacturingGrid/integer IO perimeter; core on PlacementGrid (PG connectivity remains unverified)"
 }
-proc uart_validate_floorplan {dir} {
+proc uart_validate_floorplan {dir {check_power_plan 0}} {
     set init [uart_geometry_read [file join $dir 0_InitDesign.tcl]]
     if {![regexp -line {^floorPlan[^\n]+} $init floor]} { error "Missing floorPlan" }
     set at [lsearch -exact $floor -d]
@@ -98,6 +98,8 @@ proc uart_validate_floorplan {dir} {
         }
         puts "PASS geometry: $side, $count pads, corner bounds and gaps"
     }
+    puts "PASS geometry: $total pads; ${core_w}x${core_h}um core"
+    if {!$check_power_plan} { return }
     set power [uart_geometry_read [file join $dir 1_PowerPlan.tcl]]
     set rings [regexp -all -inline -line {^addRing[^\n]+} $power]
     if {[llength $rings] != 1} {error "Expected one core ring; remove the old external ring"}
@@ -135,4 +137,6 @@ proc uart_validate_floorplan {dir} {
     puts "PASS geometry: $total pads; ${core_w}x${core_h}um core; min ring/pad clearance 74.98um; $pairs ideal stripe pairs"
     puts "Geometry only: Innovus IO legality, PG connectivity, DRC and IR drop remain unverified."
 }
-uart_validate_floorplan [file dirname [file normalize [info script]]]
+if {[file normalize [info script]] eq [file normalize $::argv0]} {
+    uart_validate_floorplan [file dirname [file normalize [info script]]] 1
+}

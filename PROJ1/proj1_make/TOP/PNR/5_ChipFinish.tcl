@@ -1,35 +1,30 @@
-source [file join [file dirname [info script]] pnr_config.tcl]
-#######################
-#### Chip Finish ######
-#######################
-if {![info exists ::pnr_batch]} { restoreDesign RouteDesign.dat }
-# Add Filler
-getFillerMode -quiet
-addFiller -cell FILL1 FILL8 FILL64 FILL4 FILL32 FILL2 FILL16 -prefix FILLER
-extractRC
-# If there is no error, save Design
-saveDesign -rc -def ChipFinish
+source [file join [file dirname [file normalize [info script]]] uart_top_config.tcl]
+uart_prepare_stage RouteDesign
 
-#####################
-#### Write Out ######
-#####################
-# Write Out Files
-# GDS file : without layermap file for GPDK045
-streamOut asic_top.gds -libName DesignLib -units 2000 -mode ALL
-
-# Write Out Constraint
-writeTimingCon asic_top.sdc
-
-# Preserve power pad instances in the physical netlist.
-saveNetlist -flat asic_top.v
-
-# SDF OUT, but I recommend to use sdf file which is from Tempus tool
-# SDF version 3.0 :: RECREM included in the SDF file
-write_sdf asic_top.sdf
-
-# SDF version 2.1
-write_sdf -version 2.1 asic_top.sdf_2.1
-
-
+set fillers {}
+foreach master {FILL64 FILL32 FILL16 FILL8 FILL4 FILL2 FILL1} {
+    if {[dict exists $uart_cell_sites $master] && [dict get $uart_cell_sites $master] eq "CoreSite"} {
+        lappend fillers $master
+    }
+}
+if {![llength $fillers]} {
+    error "No CoreSite fillers found"
+}
+addFiller -cell $fillers -prefix UART_FILL
+uart_check_sites reports/final_sites.rpt
+uart_report_routed_timing reports/timing/final
+set_verify_drc_mode -report reports/final_drc.rpt
 verify_drc
-verifyConnectivity -type all -geomConnect -error 1000 -warning 50
+verifyConnectivity -type all -geomConnect -report reports/final_connectivity.rpt
+saveDesign -rc -def ChipFinish
+saveNetlist -flat uart_top_pnr.v
+writeTimingCon uart_top_pnr.sdc
+write_sdf uart_top.sdf
+
+# Optional GDS export with the foundry layer map and standard-cell GDS.
+if {[info exists ::env(UART_GDS_MAP)] && [info exists ::env(UART_STD_CELL_GDS)]} {
+    uart_require_file $::env(UART_GDS_MAP)
+    uart_require_file $::env(UART_STD_CELL_GDS)
+    streamOut uart_top.gds -mapFile $::env(UART_GDS_MAP) \
+        -merge [list $::env(UART_STD_CELL_GDS)] -libName DesignLib -units 2000 -mode ALL
+}

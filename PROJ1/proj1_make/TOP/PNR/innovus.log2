@@ -1,0 +1,469 @@
+
+Cadence Innovus(TM) Implementation System.
+Copyright 2022 Cadence Design Systems, Inc. All rights reserved worldwide.
+
+Version:	v22.17-s086_1, built Tue Sep 24 10:51:50 PDT 2024
+Options:	
+Date:		Thu Nov 26 23:17:03 2026
+Host:		kopo-seongnam (x86_64 w/Linux 3.10.0-1160.el7.x86_64) (20cores*80cpus*Intel(R) Xeon(R) Gold 5218R CPU @ 2.10GHz 28160KB)
+OS:		CentOS Linux 7 (Core)
+
+License:
+		[23:17:03.158593] Configured Lic search path (22.01-s003): 5280@localhost
+
+		invs	Innovus Implementation System	22.1	Denied
+		invsb	Innovus Implementation System Basic	22.1	checkout succeeded
+		4 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+Change the soft stacksize limit to 0.2%RAM (770 mbytes). Set global soft_stack_size_limit to change the value.
+
+**INFO:  MMMC transition support version v31-84 
+
+<CMD> set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+<CMD> suppressMessage ENCEXT-2799
+<CMD> win
+<CMD> set enc_check_rename_command_name 1
+<CMD> restoreDesign InitDesign.dat
+#% Begin load design ... (date=11/26 23:18:26, mem=1341.6M)
+Loading design 'uart_top' saved by 'Innovus' '22.17-s086_1' on 'Thu Nov 26 23:14:58 2026'.
+% Begin Load MMMC data ... (date=11/26 23:18:26, mem=1343.2M)
+% End Load MMMC data ... (date=11/26 23:18:26, total cpu=0:00:00.0, real=0:00:00.0, peak res=1343.9M, current mem=1343.9M)
+BEST WORST
+
+Loading LEF file /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/libs/lef/gsclib045_tech.lef ...
+Set DBUPerIGU to M2 pitch 400.
+
+Loading LEF file /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/libs/lef/gsclib045_macro.lef ...
+**WARN: (IMPLF-200):	Pin 'A' in macro 'ANTENNA' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+
+##  Check design process and node:  
+##  Both design process and tech node are not set.
+
+Loading view definition file from /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/viewDefinition.tcl
+Reading SS_LIBS timing library '/home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib' ...
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP9'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP8'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP7'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP6'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP5'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP4'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP3'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP2'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP10'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'ANTENNA'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/slow_vdd1v0_basicCells.lib)
+Read 489 cells in library 'slow_vdd1v0' 
+Reading FF_LIBS timing library '/home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib' ...
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP9'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP8'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP7'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP6'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP5'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP4'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP3'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP2'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DECAP10'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'ANTENNA'. The cell will only be used for analysis. (File /home/hah002/SoC/GPDK045/digital/gsclib045_all_v4.4/gsclib045/timing/fast_vdd1v0_basicCells.lib)
+Read 489 cells in library 'fast_vdd1v0' 
+*** End library_loading (cpu=0.02min, real=0.03min, mem=20.5M, fe_cpu=0.49min, fe_real=1.42min, fe_mem=1634.6M) ***
+% Begin Load netlist data ... (date=11/26 23:18:28, mem=1362.0M)
+*** Begin netlist parsing (mem=1634.6M) ***
+Created 489 new cells from 2 timing libraries.
+Reading netlist ...
+Backslashed names will retain backslash and a trailing blank character.
+Reading verilogBinary netlist '/home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/uart_top.v.bin'
+
+*** Memory Usage v#1 (Current mem = 1640.598M, initial mem = 654.371M) ***
+*** End netlist parsing (cpu=0:00:00.0, real=0:00:00.0, mem=1640.6M) ***
+% End Load netlist data ... (date=11/26 23:18:28, total cpu=0:00:00.0, real=0:00:00.0, peak res=1372.0M, current mem=1372.0M)
+Set top cell to uart_top.
+Hooked 978 DB cells to tlib cells.
+Starting recursive module instantiation check.
+No recursion found.
+Building hierarchical netlist for Cell uart_top ...
+***** UseNewTieNetMode *****.
+*** Netlist is unique.
+** info: there are 1076 modules.
+** info: there are 191 stdCell insts.
+** info: there are 191 stdCell insts with at least one signal pin.
+
+*** Memory Usage v#1 (Current mem = 1693.023M, initial mem = 654.371M) ***
+*info: set bottom ioPad orient R0
+**WARN: (IMPFP-3961):	The techSite 'CornerSite' has no related standard cells in the LEF/OA library. The calculations for this site type cannot be made unless standard cell models of this type exist in the LEF/OA library. Ignore this warning if the SITE is not used by the library. Alternatively, remove the SITE definition for the LEF/OA library to avoid this message.
+Type 'man IMPFP-3961' for more detail.
+**WARN: (IMPFP-3961):	The techSite 'IOSite' has no related standard cells in the LEF/OA library. The calculations for this site type cannot be made unless standard cell models of this type exist in the LEF/OA library. Ignore this warning if the SITE is not used by the library. Alternatively, remove the SITE definition for the LEF/OA library to avoid this message.
+Type 'man IMPFP-3961' for more detail.
+Start create_tracks
+Loading preference file /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/gui.pref.tcl ...
+Change floorplan default-technical-site to 'CoreSite'.
+*Info: initialize multi-corner CTS.
+Total number of combinational cells: 318
+Total number of sequential cells: 152
+Total number of tristate cells: 10
+Total number of level shifter cells: 0
+Total number of power gating cells: 0
+Total number of isolation cells: 0
+Total number of power switch cells: 0
+Total number of pulse generator cells: 0
+Total number of always on buffers: 0
+Total number of retention cells: 0
+Total number of physical cells: 9
+List of usable buffers: BUFX2 BUFX12 BUFX16 BUFX20 CLKBUFX2 BUFX3 BUFX4 BUFX6 BUFX8 CLKBUFX12 CLKBUFX16 CLKBUFX20 CLKBUFX3 CLKBUFX4 CLKBUFX6 CLKBUFX8
+Total number of usable buffers: 16
+List of unusable buffers:
+Total number of unusable buffers: 0
+List of usable inverters: CLKINVX1 CLKINVX2 CLKINVX12 CLKINVX16 CLKINVX20 CLKINVX4 CLKINVX3 CLKINVX6 CLKINVX8 INVX1 INVX2 INVX12 INVX16 INVX20 INVXL INVX3 INVX4 INVX6 INVX8
+Total number of usable inverters: 19
+List of unusable inverters:
+Total number of unusable inverters: 0
+List of identified usable delay cells: DLY1X1 DLY1X4 DLY2X1 DLY2X4 DLY3X1 DLY3X4 DLY4X1 DLY4X4
+Total number of identified usable delay cells: 8
+List of identified unusable delay cells:
+Total number of identified unusable delay cells: 0
+Reading floorplan file - /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/uart_top.fp.gz (mem = 1951.1M).
+% Begin Load floorplan data ... (date=11/26 23:18:29, mem=1674.9M)
+*info: reset 218 existing net BottomPreferredLayer and AvoidDetour
+Deleting old partition specification.
+Set FPlanBox to (0 0 83200 82840)
+**WARN: (IMPFP-3961):	The techSite 'CornerSite' has no related standard cells in the LEF/OA library. The calculations for this site type cannot be made unless standard cell models of this type exist in the LEF/OA library. Ignore this warning if the SITE is not used by the library. Alternatively, remove the SITE definition for the LEF/OA library to avoid this message.
+Type 'man IMPFP-3961' for more detail.
+**WARN: (IMPFP-3961):	The techSite 'IOSite' has no related standard cells in the LEF/OA library. The calculations for this site type cannot be made unless standard cell models of this type exist in the LEF/OA library. Ignore this warning if the SITE is not used by the library. Alternatively, remove the SITE definition for the LEF/OA library to avoid this message.
+Type 'man IMPFP-3961' for more detail.
+Start create_tracks
+ ... processed partition successfully.
+Reading binary special route file /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/uart_top.fp.spr.gz (Created by Innovus v22.17-s086_1 on Thu Nov 26 23:14:57 2026, version: 1)
+Convert 0 swires and 0 svias from compressed groups
+0 swires and 0 svias were compressed
+0 swires and 0 svias were decompressed from small or sparse groups
+Ending "Read special route file" (total cpu=0:00:00.0, real=0:00:00.0, peak res=1675.9M, current mem=1675.9M)
+Extracting standard cell pins and blockage ...... 
+Pin and blockage extraction finished
+% End Load floorplan data ... (date=11/26 23:18:29, total cpu=0:00:00.1, real=0:00:00.0, peak res=1676.4M, current mem=1676.4M)
+Reading congestion map file /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/uart_top.route.congmap.gz ...
+% Begin Load SymbolTable ... (date=11/26 23:18:29, mem=1676.8M)
+% End Load SymbolTable ... (date=11/26 23:18:29, total cpu=0:00:00.0, real=0:00:00.0, peak res=1677.1M, current mem=1677.1M)
+Loading place ...
+% Begin Load placement data ... (date=11/26 23:18:29, mem=1677.1M)
+Reading placement file - /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/uart_top.place.gz.
+** Reading stdCellPlacement_binary (Created by Innovus v22.17-s086_1 on Thu Nov 26 23:14:57 2026, version# 2) ...
+Read Views for adaptive view pruning ...
+Read 0 views from Binary DB for adaptive view pruning
+*** Completed restorePlace (cpu=0:00:00.0 real=0:00:00.0 mem=1950.1M) ***
+Total net length = 1.910e-01 (9.550e-02 9.550e-02) (ext = 0.000e+00)
+% End Load placement data ... (date=11/26 23:18:29, total cpu=0:00:00.1, real=0:00:00.0, peak res=1677.2M, current mem=1677.1M)
+% Begin Load routing data ... (date=11/26 23:18:29, mem=1677.2M)
+Reading routing file - /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/uart_top.route.gz.
+Reading Innovus routing data (Created by Innovus v22.17-s086_1 on Thu Nov 26 23:14:57 2026 Format: 20.1) ...
+*** Total 218 nets are successfully restored.
+*** Completed restoreRoute (cpu=0:00:00.0 real=0:00:01.0 mem=1947.1M) ***
+% End Load routing data ... (date=11/26 23:18:30, total cpu=0:00:00.0, real=0:00:01.0, peak res=1678.3M, current mem=1677.3M)
+TAT_INFO: restoreCongMap REAL = 0 : CPU = 0 : MEM = 0.
+Reading property file /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/uart_top.prop
+*** Completed restoreProperty (cpu=0:00:00.0 real=0:00:00.0 mem=1950.1M) ***
+Loading preRoute extraction data from directory '/home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/extraction/' ...
+Extraction setup Started 
+Initializing multi-corner RC extraction with 2 active RC Corners ...
+Captable file(s) not specified in multi-corner setup. PreRoute extraction will use technology file. For postRoute extraction, default value for effort level would be 'medium' and effort level 'low' would not be allowed.
+Generating auto layer map file.
+Loading preRoute extracted patterns from file '/home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/uart_top.techData.gz' ...
+Completed (cpu: 0:00:00.7 real: 0:00:01.0)
+Set Shrink Factor to 1.00000
+Summary of Active RC-Corners : 
+ 
+ Analysis View: FUNC_SS_WORST
+    RC-Corner Name        : WORST
+    RC-Corner Index       : 0
+    RC-Corner Temperature : 125 Celsius
+    RC-Corner Cap Table   : ''
+    RC-Corner PreRoute Res Factor         : 1
+    RC-Corner PreRoute Cap Factor         : 1
+    RC-Corner PostRoute Res Factor        : 1 {1 1 1}
+    RC-Corner PostRoute Cap Factor        : 1 {1 1 1}
+    RC-Corner PostRoute XCap Factor       : 1 {1 1 1}
+    RC-Corner PreRoute Clock Res Factor   : 1	[Derived from postRoute_res (effortLevel low)]
+    RC-Corner PreRoute Clock Cap Factor   : 1	[Derived from postRoute_cap (effortLevel low)]
+    RC-Corner PostRoute Clock Cap Factor  : 1 {1 1 1} 	[Derived from postRoute_cap (effortLevel low)]
+    RC-Corner PostRoute Clock Res Factor  : 1 {1 1 1} 	[Derived from postRoute_res (effortLevel low)]
+    RC-Corner PostRoute Clock coupling capacitance Factor : 1 {1 1 1} 
+    RC-Corner Technology file: '/home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/libs/mmmc/BEST/gpdk045.tch'
+ 
+ Analysis View: FUNC_FF_BEST
+    RC-Corner Name        : BEST
+    RC-Corner Index       : 1
+    RC-Corner Temperature : 0 Celsius
+    RC-Corner Cap Table   : ''
+    RC-Corner PreRoute Res Factor         : 1
+    RC-Corner PreRoute Cap Factor         : 1
+    RC-Corner PostRoute Res Factor        : 1 {1 1 1}
+    RC-Corner PostRoute Cap Factor        : 1 {1 1 1}
+    RC-Corner PostRoute XCap Factor       : 1 {1 1 1}
+    RC-Corner PreRoute Clock Res Factor   : 1	[Derived from postRoute_res (effortLevel low)]
+    RC-Corner PreRoute Clock Cap Factor   : 1	[Derived from postRoute_cap (effortLevel low)]
+    RC-Corner PostRoute Clock Cap Factor  : 1 {1 1 1} 	[Derived from postRoute_cap (effortLevel low)]
+    RC-Corner PostRoute Clock Res Factor  : 1 {1 1 1} 	[Derived from postRoute_res (effortLevel low)]
+    RC-Corner PostRoute Clock coupling capacitance Factor : 1 {1 1 1} 
+    RC-Corner Technology file: '/home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/libs/mmmc/BEST/gpdk045.tch'
+Updating RC Grid density data for preRoute extraction ...
+Initializing multi-corner resistance tables ...
+Default value for postRoute extraction mode's effortLevel (-effortLevel option of setExtractRCMode) changed to 'medium'.
+Start generating vias ..
+#Skip building auto via since it is not turned on.
+Extracting standard cell pins and blockage ...... 
+Pin and blockage extraction finished
+Via generation completed.
+% Begin Load power constraints ... (date=11/26 23:18:31, mem=1723.7M)
+% End Load power constraints ... (date=11/26 23:18:31, total cpu=0:00:00.0, real=0:00:00.0, peak res=1723.8M, current mem=1723.8M)
+FF_BEST SS_WORST
+% Begin load AAE data ... (date=11/26 23:18:31, mem=1765.7M)
+% End load AAE data ... (date=11/26 23:18:31, total cpu=0:00:00.0, real=0:00:00.0, peak res=1765.7M, current mem=1765.7M)
+Total number of combinational cells: 318
+Total number of sequential cells: 152
+Total number of tristate cells: 10
+Total number of level shifter cells: 0
+Total number of power gating cells: 0
+Total number of isolation cells: 0
+Total number of power switch cells: 0
+Total number of pulse generator cells: 0
+Total number of always on buffers: 0
+Total number of retention cells: 0
+Total number of physical cells: 9
+List of usable buffers: BUFX2 BUFX12 BUFX16 BUFX20 CLKBUFX2 BUFX3 BUFX4 BUFX6 BUFX8 CLKBUFX12 CLKBUFX16 CLKBUFX20 CLKBUFX3 CLKBUFX4 CLKBUFX6 CLKBUFX8
+Total number of usable buffers: 16
+List of unusable buffers:
+Total number of unusable buffers: 0
+List of usable inverters: CLKINVX1 CLKINVX2 CLKINVX12 CLKINVX16 CLKINVX20 CLKINVX4 CLKINVX3 CLKINVX6 CLKINVX8 INVX1 INVX2 INVX12 INVX16 INVX20 INVXL INVX3 INVX4 INVX6 INVX8
+Total number of usable inverters: 19
+List of unusable inverters:
+Total number of unusable inverters: 0
+List of identified usable delay cells: DLY1X1 DLY1X4 DLY2X1 DLY2X4 DLY3X1 DLY3X4 DLY4X1 DLY4X4
+Total number of identified usable delay cells: 8
+List of identified unusable delay cells:
+Total number of identified unusable delay cells: 0
+#% End load design ... (date=11/26 23:18:31, total cpu=0:00:05.2, real=0:00:05.0, peak res=1796.2M, current mem=1766.1M)
+
+*** Summary of all messages that are not suppressed in this session:
+Severity  ID               Count  Summary                                  
+WARNING   IMPLF-200            1  Pin '%s' in macro '%s' has no ANTENNAGAT...
+WARNING   IMPFP-3961           4  The techSite '%s' has no related standar...
+WARNING   TECHLIB-302         20  No function defined for cell '%s'. The c...
+*** Message Summary: 25 warning(s), 0 error(s)
+
+<CMD> globalNetConnect VDD -type pgpin -pin VDD -instanceBasename *
+<CMD> globalNetConnect VSS -type pgpin -pin VSS -instanceBasename *
+<CMD> globalNetConnect VDD -type tiehi -instanceBasename *
+<CMD> globalNetConnect VSS -type tielo -instanceBasename *
+<CMD> setTieHiLoMode -reset
+<CMD> setTieHiLoMode -cell {TIELO TIEHI} -honorDontTouch false -createHierPort false
+<CMD> addRing -nets {VDD VSS} -type core_rings -follow core -layer {top Metal11 bottom Metal11 left Metal10 right Metal10} -width 0.8 -spacing 0.8 -offset 0.8
+#% Begin addRing (date=11/26 23:18:31, mem=1766.4M)
+
+
+viaInitial starts at Thu Nov 26 23:18:31 2026
+viaInitial ends at Thu Nov 26 23:18:31 2026
+Loading cell geometries (cpu: 0:00:00.0, real: 0:00:00.0, peak mem: 2044.5M)
+**WARN: (IMPPP-136):	The currently specified top spacing 0.800000  is less than the required spacing 1.250000 for widths specified as 0.800000 and 0.800000.
+**WARN: (IMPPP-136):	The currently specified bottom spacing 0.800000  is less than the required spacing 1.250000 for widths specified as 0.800000 and 0.800000.
+**WARN: (IMPPP-136):	The currently specified left spacing 0.800000  is less than the required spacing 1.250000 for widths specified as 0.800000 and 0.800000.
+**WARN: (IMPPP-136):	The currently specified right spacing 0.800000  is less than the required spacing 1.250000 for widths specified as 0.800000 and 0.800000.
+Ring generation is complete.
+vias are now being generated.
+addRing created 8 wires.
+ViaGen created 8 vias, deleted 0 via to avoid violation.
++--------+----------------+----------------+
+|  Layer |     Created    |     Deleted    |
++--------+----------------+----------------+
+| Metal10|        4       |       NA       |
+|  Via10 |        8       |        0       |
+| Metal11|        4       |       NA       |
++--------+----------------+----------------+
+#% End addRing (date=11/26 23:18:31, total cpu=0:00:00.0, real=0:00:00.0, peak res=1768.7M, current mem=1768.7M)
+<CMD> setAddStripeMode -stacked_via_top_layer Metal11 -stacked_via_bottom_layer Metal1
+<CMD> addStripe -nets {VDD VSS} -layer Metal10 -direction vertical -width 0.8 -spacing 0.8 -set_to_set_distance 16 -start_from left -start_offset 7
+#% Begin addStripe (date=11/26 23:18:31, mem=1768.7M)
+
+Initialize fgc environment(mem: 2045.5M) ...  done(cpu: 0:00:00.0, real: 0:00:00.0, peak mem: 2047.5M)
+Loading cell geometries (cpu: 0:00:00.0, real: 0:00:00.0, peak mem: 2047.5M)
+Loading wires (cpu: 0:00:00.0, real: 0:00:00.0, peak mem: 2047.5M)
+Loading via instances (cpu: 0:00:00.0, real: 0:00:00.0, peak mem: 2047.5M)
+**WARN: (IMPPP-136):	The currently specified  spacing 0.800000 in -spacing option is less than the required spacing 1.250000 for widths specified as 0.800000 and 0.800000.
+Starting stripe generation ...
+Non-Default Mode Option Settings :
+  -use_exact_spacing  1
+**WARN: (IMPPP-354):	The power planner did not generate the vertical stripe at 14.000000 1.740000 14.000000 38.119999 with width 0.800000 due to one of these reasons: the stripe would merge with rings, the stripe could not connect to any legal target, the stripe net is not contained by the power doamin, or the stripe would break the design rule.
+Type 'man IMPPP-354' for more detail.
+**WARN: (IMPPP-354):	The power planner did not generate the vertical stripe at 30.000000 1.740000 30.000000 38.119999 with width 0.800000 due to one of these reasons: the stripe would merge with rings, the stripe could not connect to any legal target, the stripe net is not contained by the power doamin, or the stripe would break the design rule.
+Type 'man IMPPP-354' for more detail.
+Stripe generation is complete.
+vias are now being generated.
+addStripe created 2 wires.
+ViaGen created 4 vias, deleted 0 via to avoid violation.
++--------+----------------+----------------+
+|  Layer |     Created    |     Deleted    |
++--------+----------------+----------------+
+| Metal10|        2       |       NA       |
+|  Via10 |        4       |        0       |
++--------+----------------+----------------+
+setAddStripeMode -use_exact_spacing is reset to default value: false.
+#% End addStripe (date=11/26 23:18:31, total cpu=0:00:00.1, real=0:00:00.0, peak res=1773.0M, current mem=1773.0M)
+<CMD> createPGPin -onDie -net VDD -width 0.8 -length 2.0
+<CMD> createPGPin -onDie -net VSS -width 0.8 -length 2.0
+<CMD> sroute -connect corePin -corePinTarget firstAfterRowEnd -layerChangeRange {Metal1 Metal11} -allowJogging 1 -allowLayerChange 1 -nets {VDD VSS}
+#% Begin sroute (date=11/26 23:18:31, mem=1773.0M)
+*** Begin SPECIAL ROUTE on Thu Nov 26 23:18:31 2026 ***
+SPECIAL ROUTE ran on directory: /home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR
+SPECIAL ROUTE ran on machine: kopo-seongnam (Linux 3.10.0-1160.el7.x86_64 Xeon 842Mhz)
+
+Begin option processing ...
+srouteConnectPowerBump set to false
+routeSelectNet set to "VDD VSS"
+routeSpecial set to true
+srouteBottomLayerLimit set to 1
+srouteConnectBlockPin set to false
+srouteConnectConverterPin set to false
+srouteConnectPadPin set to false
+srouteConnectStripe set to false
+srouteFollowCorePinEnd set to 3
+srouteFollowPadPin set to false
+srouteJogControl set to "preferWithChanges differentLayer"
+sroutePadPinAllPorts set to true
+sroutePreserveExistingRoutes set to true
+srouteRoutePowerBarPortOnBothDir set to true
+srouteTopLayerLimit set to 11
+End option processing: cpu: 0:00:00, real: 0:00:00, peak: 3502.00 megs.
+
+Reading DB technology information...
+Finished reading DB technology information.
+Reading floorplan and netlist information...
+Finished reading floorplan and netlist information.
+**WARN: (IMPSR-4302):	Cap-table/qrcTechFile is found in the design, so the same information from the technology file will be ignored.
+Read in 24 layers, 11 routing layers, 1 overlap layer
+Read in 2 nondefault rules, 0 used
+Read in 583 macros, 34 used
+Read in 34 components
+  34 core components: 34 unplaced, 0 placed, 0 fixed
+Read in 25 physical pins
+  25 physical pins: 0 unplaced, 0 placed, 25 fixed
+Read in 25 nets
+Read in 2 special nets, 2 routed
+Read in 93 terminals
+2 nets selected.
+
+Begin power routing ...
+CPU time for VDD FollowPin 0 seconds
+CPU time for VSS FollowPin 0 seconds
+  Number of Core ports routed: 38
+  Number of Followpin connections: 19
+End power routing: cpu: 0:00:00, real: 0:00:00, peak: 3534.00 megs.
+
+
+
+ Begin updating DB with routing results ...
+ Updating DB with 25 io pins ...
+ Updating DB with 0 via definition ...
+sroute created 57 wires.
+ViaGen created 522 vias, deleted 0 via to avoid violation.
++--------+----------------+----------------+
+|  Layer |     Created    |     Deleted    |
++--------+----------------+----------------+
+| Metal1 |       57       |       NA       |
+|  Via1  |       58       |        0       |
+|  Via2  |       58       |        0       |
+|  Via3  |       58       |        0       |
+|  Via4  |       58       |        0       |
+|  Via5  |       58       |        0       |
+|  Via6  |       58       |        0       |
+|  Via7  |       58       |        0       |
+|  Via8  |       58       |        0       |
+|  Via9  |       58       |        0       |
++--------+----------------+----------------+
+#% End sroute (date=11/26 23:18:32, total cpu=0:00:00.7, real=0:00:01.0, peak res=1818.0M, current mem=1804.9M)
+<CMD> verifyConnectivity -type special -nets {VDD VSS} -report reports/pg_connectivity.rpt
+VERIFY_CONNECTIVITY use new engine.
+
+******** Start: VERIFY CONNECTIVITY ********
+Start Time: Thu Nov 26 23:18:32 2026
+
+Design Name: uart_top
+Database Units: 2000
+Design Boundary: (0.0000, 0.0000) (41.6000, 41.4200)
+Error Limit = 1000; Warning Limit = 50
+Check specified nets
+*** Checking Net VDD
+*** Checking Net VSS
+
+Begin Summary 
+  Found no problems or warnings.
+End Summary
+
+End Time: Thu Nov 26 23:18:32 2026
+Time Elapsed: 0:00:00.0
+
+******** End: VERIFY CONNECTIVITY ********
+  Verification Complete : 0 Viols.  0 Wrngs.
+  (CPU Time: 0:00:00.0  MEM: 0.000M)
+
+<CMD> saveDesign -def PowerPlan
+#% Begin save design ... (date=11/26 23:18:32, mem=1808.5M)
+% Begin Save ccopt configuration ... (date=11/26 23:18:32, mem=1808.5M)
+% End Save ccopt configuration ... (date=11/26 23:18:32, total cpu=0:00:00.0, real=0:00:00.0, peak res=1809.6M, current mem=1809.6M)
+% Begin Save netlist data ... (date=11/26 23:18:32, mem=1809.7M)
+Writing Binary DB to PowerPlan.dat/uart_top.v.bin in single-threaded mode...
+% End Save netlist data ... (date=11/26 23:18:32, total cpu=0:00:00.0, real=0:00:00.0, peak res=1809.8M, current mem=1809.8M)
+Saving symbol-table file ...
+Saving congestion map file PowerPlan.dat/uart_top.route.congmap.gz ...
+% Begin Save AAE data ... (date=11/26 23:18:32, mem=1809.9M)
+Saving AAE Data ...
+% End Save AAE data ... (date=11/26 23:18:33, total cpu=0:00:00.1, real=0:00:01.0, peak res=1904.3M, current mem=1809.9M)
+Saving preference file PowerPlan.dat/gui.pref.tcl ...
+Saving mode setting ...
+Saving global file ...
+% Begin Save floorplan data ... (date=11/26 23:18:33, mem=1811.3M)
+Saving floorplan file ...
+Convert 0 swires and 0 svias from compressed groups
+% End Save floorplan data ... (date=11/26 23:18:33, total cpu=0:00:00.1, real=0:00:00.0, peak res=1811.7M, current mem=1811.7M)
+Saving PG file PowerPlan.dat/uart_top.pg.gz, version#2, (Created by Innovus v22.17-s086_1 on Thu Nov 26 23:18:33 2026)
+*** Completed savePGFile (cpu=0:00:00.0 real=0:00:00.0 mem=2066.3M) ***
+Saving Drc markers ...
+... No Drc file written since there is no markers found.
+% Begin Save placement data ... (date=11/26 23:18:33, mem=1811.8M)
+** Saving stdCellPlacement_binary (version# 2) ...
+Save Adaptive View Pruning View Names to Binary file
+% End Save placement data ... (date=11/26 23:18:33, total cpu=0:00:00.0, real=0:00:00.0, peak res=1811.8M, current mem=1811.8M)
+% Begin Save routing data ... (date=11/26 23:18:33, mem=1811.8M)
+Saving route file ...
+*** Completed saveRoute (cpu=0:00:00.0 real=0:00:00.0 mem=2066.3M) ***
+% End Save routing data ... (date=11/26 23:18:33, total cpu=0:00:00.0, real=0:00:00.0, peak res=1811.9M, current mem=1811.9M)
+Saving Def ...
+Writing DEF file 'PowerPlan.dat/uart_top.def.gz', current time is Thu Nov 26 23:18:33 2026 ...
+unitPerMicron=2000, dbgMicronPerDBU=0.000500, unitPerDBU=1.000000
+DEF file 'PowerPlan.dat/uart_top.def.gz' is written, current time is Thu Nov 26 23:18:33 2026 ...
+Saving property file PowerPlan.dat/uart_top.prop
+*** Completed saveProperty (cpu=0:00:00.0 real=0:00:00.0 mem=2069.3M) ***
+Saving preRoute extracted patterns in file 'PowerPlan.dat/uart_top.techData.gz' ...
+Saving preRoute extraction data in directory 'PowerPlan.dat/extraction/' ...
+% Begin Save power constraints data ... (date=11/26 23:18:33, mem=1814.9M)
+% End Save power constraints data ... (date=11/26 23:18:33, total cpu=0:00:00.0, real=0:00:00.0, peak res=1815.0M, current mem=1815.0M)
+BEST WORST
+BEST WORST
+BEST WORST
+BEST WORST
+BEST WORST
+Generated self-contained design PowerPlan.dat
+FF_LIBS SS_LIBS
+BEST WORST
+FUNC
+/home/hah002/UART_PROJECT/PROJ1/proj1_make/TOP/PNR/InitDesign.dat/libs/mmmc/uart_top.sdc
+#% End save design ... (date=11/26 23:18:34, total cpu=0:00:01.3, real=0:00:02.0, peak res=1904.3M, current mem=1817.9M)
+*** Message Summary: 0 warning(s), 0 error(s)
+
+
+--------------------------------------------------------------------------------
+Exiting Innovus on Thu Nov 26 23:19:01 2026
+  Total CPU time:     0:00:39
+  Total real time:    0:02:00
+  Peak memory (main): 2088.29MB
+
+
+*** Memory Usage v#1 (Current mem = 2807.160M, initial mem = 654.371M) ***
+*** Message Summary: 33 warning(s), 0 error(s)
+
+--- Ending "Innovus" (totcpu=0:00:36.8, real=0:01:58, mem=2807.2M) ---
